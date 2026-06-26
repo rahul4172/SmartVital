@@ -13,7 +13,7 @@ export function Explainability() {
   const [isLoading, setIsLoading] = useState(false);
   const [explanation, setExplanation] = useState<any>(null);
 
-  const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+  const API_BASE = import.meta.env.VITE_API_URL || 'https://smartvital-backend.onrender.com';
 
   const fetchExplanation = async (e: React.FormEvent) => {
     e.preventDefault();

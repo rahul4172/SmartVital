@@ -23,7 +23,7 @@ export function LiveMonitoring() {
   const [connectionError, setConnectionError] = useState('');
   const wsRef = useRef<WebSocket | null>(null);
 
-  const WS_URL = import.meta.env.VITE_WS_URL || 'ws://localhost:8000/api/iot/ws';
+  const WS_URL = import.meta.env.VITE_WS_URL || 'wss://smartvital-backend.onrender.com/api/iot/ws';
 
   useEffect(() => {
     // Connect to WebSocket
