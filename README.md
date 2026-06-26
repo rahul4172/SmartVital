@@ -12,6 +12,7 @@ SmartVital is a cutting-edge clinical intelligence and multi-disease risk predic
 - **Networking:** Axios, WebSockets (for Live IoT data)
 
 ## 🌟 Key Features
+- **Progressive Questionnaire Wizard:** Multi-tier, layperson-friendly clinical data collection with automated feature inference.
 - **Role-Based Dashboards:** Distinct interfaces tailored for Patients, Doctors, and Researchers.
 - **Live IoT Monitoring:** Real-time data streaming (Heart Rate, SpO2, Temperature) using WebSockets.
 - **AI Explainability:** Visual representations (SHAP/LIME charts) of machine learning predictions.
