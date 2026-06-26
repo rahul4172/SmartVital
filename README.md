@@ -1,16 +1,45 @@
-# React + Vite
+# SmartVital Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+SmartVital is a cutting-edge clinical intelligence and multi-disease risk prediction platform powered by AI and IoT. This repository contains the React frontend application.
 
-Currently, two official plugins are available:
+## 🚀 Tech Stack
+- **Framework:** React 18, Vite
+- **Language:** TypeScript
+- **Styling:** TailwindCSS, Clay/Glassmorphism design
+- **State Management:** Zustand
+- **Form Handling:** React Hook Form + Zod validation
+- **Animations:** Framer Motion
+- **Networking:** Axios, WebSockets (for Live IoT data)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## 🌟 Key Features
+- **Role-Based Dashboards:** Distinct interfaces tailored for Patients, Doctors, and Researchers.
+- **Live IoT Monitoring:** Real-time data streaming (Heart Rate, SpO2, Temperature) using WebSockets.
+- **AI Explainability:** Visual representations (SHAP/LIME charts) of machine learning predictions.
+- **Dynamic Theming:** Seamless Dark/Light mode toggle.
+- **Responsive UI:** Fully mobile-responsive interface.
 
-## React Compiler
+## 📦 Getting Started
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### Prerequisites
+- Node.js (v18 or higher)
+- npm or yarn
 
-## Expanding the ESLint configuration
+### Installation
+1. Clone the repository
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+3. Set up your environment variables by creating a `.env` file:
+   ```env
+   VITE_API_URL=https://smartvital-backend.onrender.com
+   VITE_WS_URL=wss://smartvital-backend.onrender.com/api/iot/ws
+   ```
+4. Start the development server:
+   ```bash
+   npm run dev
+   ```
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## 🌐 Deployment
+This frontend is optimized and deployed on **Vercel**.
+The build command is `npm run build` with the output directory set to `dist`.
