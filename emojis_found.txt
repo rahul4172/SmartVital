@@ -1,0 +1,35 @@
+src\pages\dashboards\Comorbidity.tsx:10:{ id: 'hypertension', name: 'Hypertension', icon: '🩸' },
+src\pages\dashboards\Comorbidity.tsx:11:{ id: 'diabetes', name: 'Type II Diabetes', icon: '🍬' },
+src\pages\dashboards\Comorbidity.tsx:13:{ id: 'smoking', name: 'Active Smoker', icon: '🚬' },
+src\pages\dashboards\Comorbidity.tsx:14:{ id: 'hyperlipidemia', name: 'Hyperlipidemia', icon: '🧈' },
+src\pages\dashboards\Comorbidity.tsx:15:{ id: 'ckd', name: 'Chronic Kidney Disease', icon: '🫘' }
+src\pages\dashboards\Comorbidity.tsx:116:🧬
+src\pages\dashboards\DoctorComorbidity.tsx:10:{ id: 'hypertension', name: 'Hypertension', icon: '🩸' },
+src\pages\dashboards\DoctorComorbidity.tsx:11:{ id: 'diabetes', name: 'Type II Diabetes', icon: '🍬' },
+src\pages\dashboards\DoctorComorbidity.tsx:13:{ id: 'smoking', name: 'Active Smoker', icon: '🚬' },
+src\pages\dashboards\DoctorComorbidity.tsx:14:{ id: 'hyperlipidemia', name: 'Hyperlipidemia', icon: '🧈' },
+src\pages\dashboards\DoctorComorbidity.tsx:15:{ id: 'ckd', name: 'Chronic Kidney Disease', icon: '🫘' }
+src\pages\dashboards\DoctorComorbidity.tsx:152:🧬
+src\pages\dashboards\DoctorReports.tsx:74:👤
+src\pages\dashboards\DoctorReports.tsx:112:📄
+src\pages\dashboards\Explainability.tsx:106:📊
+src\pages\dashboards\LabVault.tsx:131:<div className="text-4xl mb-4">🧪</div>
+src\pages\dashboards\LiveMonitoring.tsx:90:toast('Reconnecting...', { icon: '🔄' });
+src\pages\dashboards\MedicationsTracker.tsx:125:<div className="text-4xl mb-4">💊</div>
+src\pages\dashboards\MedicationsTracker.tsx:135:💊
+src\pages\dashboards\Predictions.tsx:275:{ id: 'stroke', name: 'Stroke Risk', icon: '🧠' },
+src\pages\dashboards\Predictions.tsx:276:{ id: 'diabetes', name: 'Diabetes', icon: '🩸' },
+src\pages\dashboards\Predictions.tsx:277:{ id: 'lung', name: 'Lung Cancer', icon: '🫁' }
+src\pages\dashboards\Reports.tsx:57:toast('Searching for ESP32 devices via Bluetooth...', { icon: '🔍' });
+src\pages\dashboards\Reports.tsx:107:<div className="w-16 h-16 bg-white rounded-full flex items-center justify-center text-gray-400 text-3xl mb-4 shadow-sm">📱</div>
+src\pages\dashboards\Reports.tsx:121:📄
+src\pages\dashboards\RiskForecasting.tsx:180:{data.trend === 'increasing' ? '📈' : data.trend === 'decreasing' ? '📉' : '➖'}
+src\pages\dashboards\SymptomChecker.tsx:80:toast('AI identified potential risk areas: ' + res.data.inferred_risk_areas.join(', '), { icon: '🤖' });
+src\pages\dashboards\SymptomChecker.tsx:199:<div className="text-4xl mb-4 text-gray-300">🩺</div>
+src\pages\dashboards\Teleconsult.tsx:33:toast('Call ended', { icon: '👋' });
+src\pages\dashboards\Timeline.tsx:34:icon: '👨‍⚕️'
+src\pages\dashboards\Timeline.tsx:44:icon: '🩸'
+src\pages\dashboards\Timeline.tsx:52:icon: '🎉'
+src\pages\onboarding\PatientOnboarding.tsx:156:<div className="text-3xl mb-2">🧍</div>
+src\pages\onboarding\PatientOnboarding.tsx:160:<div className="text-3xl mb-2">🧍‍♂️</div>
+src\pages\onboarding\PatientOnboarding.tsx:164:<div className="text-3xl mb-2">🧍‍♂️</div>
