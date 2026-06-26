@@ -15,7 +15,7 @@ import { ProtectedRoute, RoleRoute, OnboardingRoute } from './ProtectedRoute';
 import { OnboardingRouter } from '../pages/onboarding/OnboardingRouter';
 
 // Layout
-import { MainLayout } from '../components/layout/MainLayout';
+import { MainLayout } from '../components/Layout/MainLayout';
 
 // Dashboards
 import { PatientDashboard } from '../pages/dashboards/PatientDashboard';
