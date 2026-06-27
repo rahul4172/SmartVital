@@ -397,7 +397,7 @@ export function Predictions() {
                           <button
                             key={idx}
                             onClick={() => handleNext(opt.value)}
-                            className="h-20 px-6 rounded-2xl border-2 border-transparent bg-gray-50 hover:bg-[var(--primary-soft)] hover:border-[var(--primary)] text-lg font-bold text-[var(--text-primary)] transition-all flex items-center justify-center hover:-translate-y-1 hover:shadow-lg"
+                            className="h-20 px-6 rounded-2xl border-2 border-transparent bg-gray-50 dark:bg-slate-800 hover:bg-[var(--primary-soft)] dark:hover:bg-slate-700 hover:border-[var(--primary)] text-lg font-bold text-[var(--text-primary)] transition-all flex items-center justify-center hover:-translate-y-1 hover:shadow-lg"
                           >
                             {opt.label}
                           </button>
@@ -439,7 +439,7 @@ export function Predictions() {
               </div>
               
               <div className="text-5xl font-bold text-[var(--text-primary)] mb-2">
-                {(predictionResult.probability * 100).toFixed(1)}<span className="text-3xl text-[var(--text-muted)]">%</span>
+                {(predictionResult.risk_score * 100).toFixed(1)}<span className="text-3xl text-[var(--text-muted)]">%</span>
               </div>
               <p className="text-[var(--text-secondary)] mb-8">Probability of condition present</p>
               
