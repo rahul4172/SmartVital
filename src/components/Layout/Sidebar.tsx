@@ -235,8 +235,8 @@ export function Sidebar() {
       >
         <div className="p-4 flex items-center justify-between border-b border-slate-200 dark:border-slate-800 h-[72px] shrink-0">
           <div className="flex items-center gap-3 overflow-hidden whitespace-nowrap">
-            <div className="w-12 h-12 rounded-xl overflow-hidden shrink-0 shadow-[0_0_15px_rgba(6,182,212,0.5)] bg-slate-900 border border-cyan-500/30">
-              <img src="/favicon.svg" alt="Logo" className="w-full h-full object-cover scale-[1.35]" />
+            <div className="w-12 h-12 flex items-center justify-center shrink-0">
+              <img src="/logo.png" alt="Logo" className="w-full h-full object-contain" />
             </div>
             {!isCollapsed && (
               <div className="transition-opacity duration-300">

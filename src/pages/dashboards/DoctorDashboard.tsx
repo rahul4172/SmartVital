@@ -82,20 +82,20 @@ export function DoctorDashboard() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-8">
         
         {/* Main Content: Patient Roster */}
-        <div className="lg:col-span-2 space-y-6">
-          <ClayCard className="p-6">
-            <div className="flex justify-between items-center mb-6">
+        <div className="lg:col-span-2 space-y-6 min-w-0">
+          <ClayCard className="p-4 sm:p-6">
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 mb-6">
               <h2 className="text-xl font-bold text-[var(--text-primary)]">Patient Roster</h2>
-              <div className="flex items-center gap-2 text-sm text-[var(--text-secondary)]">
-                <input type="text" placeholder="Search patients..." className="px-4 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:border-[var(--primary)]" />
+              <div className="flex items-center gap-2 text-sm text-[var(--text-secondary)] w-full sm:w-auto">
+                <input type="text" placeholder="Search patients..." className="w-full sm:w-auto px-4 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:border-[var(--primary)]" />
               </div>
             </div>
 
-            <div className="overflow-x-auto">
-              <table className="w-full text-left border-collapse">
+            <div className="overflow-x-auto -mx-4 sm:mx-0 px-4 sm:px-0">
+              <table className="w-full text-left border-collapse min-w-[500px]">
                 <thead>
                   <tr className="border-b border-gray-100 text-[var(--text-muted)] text-sm uppercase tracking-wider">
                     <th className="pb-3 font-bold">Patient</th>
@@ -115,7 +115,7 @@ export function DoctorDashboard() {
                     >
                       <td className="py-4">
                         <div className="flex items-center gap-3">
-                          <div className="relative">
+                          <div className="relative shrink-0">
                             <div className="w-10 h-10 rounded-full flex items-center justify-center font-bold overflow-hidden">
                               <img src={`https://api.dicebear.com/7.x/initials/svg?seed=${p.full_name}`} alt={p.full_name} className="w-full h-full object-cover" />
                             </div>
@@ -123,20 +123,20 @@ export function DoctorDashboard() {
                               <div className="absolute -top-1 -right-1 w-3 h-3 bg-[var(--danger)] rounded-full border-2 border-white animate-pulse"></div>
                             )}
                           </div>
-                          <div>
-                            <p className="font-bold text-[var(--text-primary)]">{p.full_name}</p>
-                            <p className="text-xs text-[var(--text-secondary)]">ID: {p._id.slice(-6).toUpperCase()} • {p.age || '--'} yrs</p>
+                          <div className="min-w-0">
+                            <p className="font-bold text-[var(--text-primary)] truncate">{p.full_name}</p>
+                            <p className="text-xs text-[var(--text-secondary)] truncate">ID: {p._id.slice(-6).toUpperCase()} • {p.age || '--'} yrs</p>
                           </div>
                         </div>
                       </td>
                       <td className="py-4">
-                        <span className="text-sm font-medium text-[var(--text-secondary)]">General Checkup</span>
+                        <span className="text-sm font-medium text-[var(--text-secondary)] whitespace-nowrap">General Checkup</span>
                       </td>
                       <td className="py-4">
                         <RiskBadge risk={p.risk || 'low'} size="sm" />
                       </td>
                       <td className="py-4 text-right">
-                        <button className="text-[var(--primary)] font-bold text-sm px-3 py-1.5 rounded-lg hover:bg-[var(--primary-soft)] transition-colors opacity-0 group-hover:opacity-100">
+                        <button className="text-[var(--primary)] font-bold text-sm px-3 py-1.5 rounded-lg hover:bg-[var(--primary-soft)] transition-colors opacity-100 sm:opacity-0 group-hover:opacity-100 whitespace-nowrap">
                           View Chart
                         </button>
                       </td>
@@ -160,7 +160,7 @@ export function DoctorDashboard() {
         </div>
 
         {/* Sidebar: Alerts & Quick Stats */}
-        <div className="space-y-6">
+        <div className="space-y-6 min-w-0">
           
           <ClayCard className="p-6 bg-gradient-to-br from-[var(--danger)] to-red-700 text-white border-0 shadow-[0_8px_20px_-6px_var(--danger)]">
             <div className="flex justify-between items-start mb-4">

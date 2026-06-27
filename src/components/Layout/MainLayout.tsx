@@ -45,8 +45,8 @@ export function MainLayout() {
         {/* Mobile Top Header */}
         <header className="lg:hidden bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 h-16 flex items-center justify-between px-4 sticky top-0 z-30 transition-colors">
           <div className="flex items-center gap-2 text-blue-600 dark:text-blue-400 font-bold text-lg">
-            <div className="w-8 h-8 rounded-lg overflow-hidden bg-slate-900 flex items-center justify-center border border-cyan-500/30">
-              <img src="/favicon.svg" alt="Logo" className="w-full h-full object-cover scale-[1.15]" />
+            <div className="w-10 h-10 flex items-center justify-center">
+              <img src="/logo.png" alt="Logo" className="w-full h-full object-contain" />
             </div>
             <span className="bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 to-blue-500">SmartVital</span>
           </div>

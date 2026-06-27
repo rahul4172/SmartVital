@@ -196,7 +196,7 @@ export function PatientDashboard() {
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Main Column */}
-        <div className="lg:col-span-2 space-y-6">
+        <div className="lg:col-span-2 space-y-6 min-w-0">
           <GlassCard className="p-6">
             <h2 className="text-xl font-bold text-[var(--text-primary)] mb-6">Risk Trend (Last 30 Days)</h2>
             <RiskTrendChart data={trendData} />
@@ -212,7 +212,7 @@ export function PatientDashboard() {
         </div>
 
         {/* Right Panel */}
-        <div className="space-y-6">
+        <div className="space-y-6 min-w-0">
           <GlassCard className="p-6 bg-gradient-to-br from-blue-900 to-[var(--primary)] text-white border-0 shadow-lg">
             <h3 className="font-bold text-lg mb-4 text-blue-100 uppercase tracking-wider text-xs">Risk Forecast</h3>
             <div className="space-y-4">
