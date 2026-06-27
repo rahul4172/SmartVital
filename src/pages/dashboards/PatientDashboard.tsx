@@ -58,20 +58,38 @@ export function PatientDashboard() {
           lung: Math.round(lungRisk * 100)
         });
 
-        // Parse Trend Data (aggregating from the 4 models)
-        // Assume heartRes.data.historical has days back to -30
+        // Calculate account age in days to filter out false history
+        const createdAt = profileRes.data?.created_at ? new Date(profileRes.data.created_at) : new Date();
+        const daysSinceCreation = Math.floor((Date.now() - createdAt.getTime()) / (1000 * 60 * 60 * 24));
+
         const parsedTrends = [];
         if (heartRes.data?.historical) {
           // We'll map the historical points
           for (let i = 0; i < heartRes.data.historical.length; i++) {
-             parsedTrends.push({
-               date: `Day ${heartRes.data.historical[i].day}`,
-               heart: Math.round(heartRes.data.historical[i].risk * 100),
-               stroke: Math.round((strokeRes.data?.historical?.[i]?.risk || 0) * 100),
-               diabetes: Math.round((diabetesRes.data?.historical?.[i]?.risk || 0) * 100),
-               lung: Math.round((lungRes.data?.historical?.[i]?.risk || 0) * 100)
-             });
+             const dayOffset = heartRes.data.historical[i].day; // usually negative, e.g., -30
+             
+             // Only include this historical point if the account actually existed back then
+             if (Math.abs(dayOffset) <= daysSinceCreation || dayOffset === 0) {
+               parsedTrends.push({
+                 date: dayOffset === 0 ? 'Today' : `Day ${dayOffset}`,
+                 heart: Math.round(heartRes.data.historical[i].risk * 100),
+                 stroke: Math.round((strokeRes.data?.historical?.[i]?.risk || 0) * 100),
+                 diabetes: Math.round((diabetesRes.data?.historical?.[i]?.risk || 0) * 100),
+                 lung: Math.round((lungRes.data?.historical?.[i]?.risk || 0) * 100)
+               });
+             }
           }
+        }
+        
+        // If there's no trend data (e.g., brand new account), insert a single point for "Today"
+        if (parsedTrends.length === 0) {
+          parsedTrends.push({
+             date: 'Today',
+             heart: Math.round(heartRisk * 100),
+             stroke: Math.round(strokeRisk * 100),
+             diabetes: Math.round(diabetesRisk * 100),
+             lung: Math.round(lungRisk * 100)
+          });
         }
         setTrendData(parsedTrends);
 

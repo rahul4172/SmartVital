@@ -5,6 +5,7 @@ import { useAuthStore } from '../../store/auth.store';
 import { useUiStore } from '../../store/ui.store';
 import { api } from '../../api/axios';
 import toast from 'react-hot-toast';
+import { SettingsModal } from '../ui/SettingsModal';
 import { 
   Home, User, Activity, Clock, Bell, Heart, Brain, Droplets, Wind, Zap,
   Search, Link as LinkIcon, Sliders, TrendingUp, FileText, Pill, FileBox,
@@ -17,6 +18,8 @@ export function Sidebar() {
   const { sidebarOpen, toggleSidebar, theme, setTheme, toggleAIChat } = useUiStore();
   const navigate = useNavigate();
   
+  const [settingsOpen, setSettingsOpen] = useState(false);
+
   // Local state for desktop collapse
   const [isCollapsed, setIsCollapsed] = useState(() => {
     return localStorage.getItem('sidebar_collapsed') === 'true';
@@ -334,7 +337,11 @@ export function Sidebar() {
             >
               {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
             </button>
-            <button className="p-2 text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors">
+            <button 
+              onClick={() => setSettingsOpen(true)}
+              className="p-2 text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors"
+              title="Settings"
+            >
               <Settings size={20} />
             </button>
             <button onClick={handleLogout} className="p-2 text-red-500 hover:bg-red-50 dark:hover:bg-red-500/10 rounded-lg transition-colors" title="Logout">
@@ -364,6 +371,11 @@ export function Sidebar() {
           </button>
         </div>
       </motion.aside>
+
+      <SettingsModal 
+        isOpen={settingsOpen} 
+        onClose={() => setSettingsOpen(false)} 
+      />
     </>
   );
 }
