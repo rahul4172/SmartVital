@@ -179,12 +179,20 @@ export function SettingsModal({ isOpen, onClose }: SettingsModalProps) {
                         </div>
 
                         <div className="space-y-4">
-                          <button className="w-full text-left px-4 py-3 bg-slate-50 dark:bg-slate-800/50 hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl transition-colors">
+                          <button 
+                            onClick={() => toast.success("Password reset instructions sent to your email")}
+                            className="w-full text-left px-4 py-3 bg-slate-50 dark:bg-slate-800/50 hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl transition-colors"
+                          >
                             <p className="font-bold text-slate-900 dark:text-white">Change Password</p>
                             <p className="text-sm text-slate-500">Last changed 3 months ago</p>
                           </button>
                           
-                          <button className="w-full text-left px-4 py-3 bg-red-50 dark:bg-red-500/10 hover:bg-red-100 dark:hover:bg-red-500/20 border border-red-200 dark:border-red-900/30 rounded-xl transition-colors mt-8">
+                          <button 
+                            onClick={() => {
+                              toast.error("Account deactivation is disabled in this environment.");
+                            }}
+                            className="w-full text-left px-4 py-3 bg-red-50 dark:bg-red-500/10 hover:bg-red-100 dark:hover:bg-red-500/20 border border-red-200 dark:border-red-900/30 rounded-xl transition-colors mt-8"
+                          >
                             <p className="font-bold text-red-600 dark:text-red-400">Deactivate Account</p>
                             <p className="text-sm text-red-500/80">Temporarily disable your account</p>
                           </button>

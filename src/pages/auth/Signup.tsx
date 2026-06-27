@@ -79,7 +79,7 @@ export function Signup() {
           className="hidden md:flex flex-col items-center justify-center text-center p-8"
         >
           <div className="mb-6">
-            <img src="/favicon.svg" alt="SmartVital Logo" width="220" height="220" className="object-contain drop-shadow-[0_0_35px_rgba(6,182,212,0.6)]" />
+            <img src="/logo.png" alt="SmartVital Logo" width="220" height="220" className="object-contain drop-shadow-[0_0_35px_rgba(6,182,212,0.6)]" />
           </div>
           <h1 className="text-4xl font-bold text-[var(--text-primary)] mb-4">Join SmartVital</h1>
           <p className="text-[var(--text-secondary)] text-lg max-w-md">
