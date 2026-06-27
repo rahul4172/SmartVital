@@ -439,7 +439,7 @@ export function Predictions() {
               </div>
               
               <div className="text-5xl font-bold text-[var(--text-primary)] mb-2">
-                {(predictionResult.risk_score * 100).toFixed(1)}<span className="text-3xl text-[var(--text-muted)]">%</span>
+                {(predictionResult.probability * 100).toFixed(1)}<span className="text-3xl text-[var(--text-muted)]">%</span>
               </div>
               <p className="text-[var(--text-secondary)] mb-8">Probability of condition present</p>
               
