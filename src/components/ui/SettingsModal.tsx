@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, User, Bell, Shield, Save } from 'lucide-react';
 import { useAuthStore } from '../../store/auth.store';
@@ -33,7 +34,7 @@ export function SettingsModal({ isOpen, onClose }: SettingsModalProps) {
     }, 800);
   };
 
-  return (
+  return createPortal(
     <AnimatePresence>
       {isOpen && (
         <>
@@ -218,7 +219,8 @@ export function SettingsModal({ isOpen, onClose }: SettingsModalProps) {
           </div>
         </>
       )}
-    </AnimatePresence>
+    </AnimatePresence>,
+    document.body
   );
 }
 
