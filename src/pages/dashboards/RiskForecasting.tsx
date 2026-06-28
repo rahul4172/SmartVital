@@ -37,7 +37,7 @@ export function RiskForecasting() {
 
   // Prepare chart data combining historical and forecast
   const chartData = React.useMemo(() => {
-    if (!data) return [];
+    if (!data || !data.historical || data.historical.length === 0) return [];
     
     // Historical points
     const hist = data.historical.map(h => ({
@@ -51,7 +51,7 @@ export function RiskForecasting() {
     const lastHist = hist[hist.length - 1];
     
     // Forecast points
-    const fore = data.forecast.map(f => ({
+    const fore = (data.forecast || []).map(f => ({
       day: lastHist.day + f.days_out,
       type: 'forecast',
       risk: null,
@@ -93,6 +93,18 @@ export function RiskForecasting() {
       {isLoading || !data ? (
         <ClayCard className="p-8 h-[400px] flex items-center justify-center">
           <div className="w-10 h-10 border-4 border-[var(--primary-soft)] border-t-[var(--primary)] rounded-full animate-spin"></div>
+        </ClayCard>
+      ) : data.historical.length < 2 ? (
+        <ClayCard className="p-12 flex flex-col items-center justify-center text-center h-[400px]">
+          <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mb-4 text-gray-400">
+            <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+            </svg>
+          </div>
+          <h2 className="text-xl font-bold text-[var(--text-primary)] mb-2">Not Enough Data</h2>
+          <p className="text-[var(--text-secondary)] max-w-md">
+            The Risk Forecasting engine requires at least 2 historical predictions for {modelType} disease to calculate a trajectory. Head over to the Predictions dashboard to generate more data points!
+          </p>
         </ClayCard>
       ) : (
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
