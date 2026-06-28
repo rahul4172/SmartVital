@@ -11,6 +11,8 @@ import { ClayInput } from '../../components/ui/ClayInput';
 import { ClayButton } from '../../components/ui/ClayButton';
 import { api } from '../../api/axios';
 import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
+import { GoogleLogin } from '@react-oauth/google';
+import { useAuthStore } from '../../store/auth.store';
 
 const signupSchema = z.object({
   full_name: z.string().min(2, "Full name is required"),
@@ -31,6 +33,7 @@ type SignupForm = z.infer<typeof signupSchema>;
 
 export function Signup() {
   const navigate = useNavigate();
+  const setAuth = useAuthStore(state => state.setAuth);
   const [isLoading, setIsLoading] = useState(false);
   const { executeRecaptcha } = useGoogleReCaptcha();
 
@@ -69,6 +72,30 @@ export function Signup() {
       
     } catch (error: any) {
       toast.error(error.response?.data?.detail || 'Signup failed');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleGoogleSuccess = async (credentialResponse: any) => {
+    setIsLoading(true);
+    try {
+      const response = await api.post('/auth/google', {
+        credential: credentialResponse.credential,
+        role: selectedRole
+      });
+      const { access_token, user } = response.data;
+      
+      setAuth(user, access_token);
+      toast.success('Signed in with Google successfully');
+      
+      if (!user.is_onboarded) {
+        navigate('/onboarding');
+      } else {
+        navigate(`/${user.role}/dashboard`);
+      }
+    } catch (error: any) {
+      toast.error(error.response?.data?.detail || 'Google Login failed');
     } finally {
       setIsLoading(false);
     }
@@ -193,6 +220,27 @@ export function Signup() {
               <span className="text-[var(--text-secondary)]">
                 Already have an account? <Link to="/login" className="text-[var(--primary)] font-medium hover:underline">Sign In</Link>
               </span>
+            </div>
+
+            <div className="mt-6">
+              <div className="relative">
+                <div className="absolute inset-0 flex items-center">
+                  <div className="w-full border-t border-[var(--border-color)]"></div>
+                </div>
+                <div className="relative flex justify-center text-sm">
+                  <span className="px-2 bg-[var(--bg-card)] text-[var(--text-muted)]">Or continue with</span>
+                </div>
+              </div>
+
+              <div className="mt-6 flex justify-center">
+                <GoogleLogin
+                  onSuccess={handleGoogleSuccess}
+                  onError={() => toast.error('Google Sign Up failed')}
+                  useOneTap
+                  theme="filled_black"
+                  shape="pill"
+                />
+              </div>
             </div>
             
           </ClayCard>

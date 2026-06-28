@@ -12,6 +12,7 @@ import { ClayButton } from '../../components/ui/ClayButton';
 import { api } from '../../api/axios';
 import { useAuthStore } from '../../store/auth.store';
 import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
+import { GoogleLogin } from '@react-oauth/google';
 
 const loginSchema = z.object({
   email: z.string().email("Invalid email address"),
@@ -72,6 +73,30 @@ export function Login() {
       } else {
         toast.error(error.response?.data?.detail || 'Login failed');
       }
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleGoogleSuccess = async (credentialResponse: any) => {
+    setIsLoading(true);
+    try {
+      const response = await api.post('/auth/google', {
+        credential: credentialResponse.credential,
+        role: selectedRole
+      });
+      const { access_token, user } = response.data;
+      
+      setAuth(user, access_token);
+      toast.success('Logged in with Google successfully');
+      
+      if (!user.is_onboarded) {
+        navigate('/onboarding');
+      } else {
+        navigate(`/${user.role}/dashboard`);
+      }
+    } catch (error: any) {
+      toast.error(error.response?.data?.detail || 'Google Login failed');
     } finally {
       setIsLoading(false);
     }
@@ -162,6 +187,27 @@ export function Login() {
               <span className="text-[var(--text-secondary)]">
                 New to SmartVital? <Link to="/signup" className="text-[var(--primary)] font-medium hover:underline">Create account</Link>
               </span>
+            </div>
+
+            <div className="mt-6">
+              <div className="relative">
+                <div className="absolute inset-0 flex items-center">
+                  <div className="w-full border-t border-[var(--border-color)]"></div>
+                </div>
+                <div className="relative flex justify-center text-sm">
+                  <span className="px-2 bg-[var(--bg-card)] text-[var(--text-muted)]">Or continue with</span>
+                </div>
+              </div>
+
+              <div className="mt-6 flex justify-center">
+                <GoogleLogin
+                  onSuccess={handleGoogleSuccess}
+                  onError={() => toast.error('Google Login failed')}
+                  useOneTap
+                  theme="filled_black"
+                  shape="pill"
+                />
+              </div>
             </div>
             
           </ClayCard>
