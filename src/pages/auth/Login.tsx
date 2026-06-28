@@ -11,6 +11,7 @@ import { ClayInput } from '../../components/ui/ClayInput';
 import { ClayButton } from '../../components/ui/ClayButton';
 import { api } from '../../api/axios';
 import { useAuthStore } from '../../store/auth.store';
+import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
 
 const loginSchema = z.object({
   email: z.string().email("Invalid email address"),
@@ -25,6 +26,7 @@ export function Login() {
   const setAuth = useAuthStore(state => state.setAuth);
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const { executeRecaptcha } = useGoogleReCaptcha();
 
   const { register, handleSubmit, formState: { errors }, setValue, watch } = useForm<LoginForm>({
     resolver: zodResolver(loginSchema),
@@ -38,7 +40,16 @@ export function Login() {
   const onSubmit = async (data: LoginForm) => {
     setIsLoading(true);
     try {
-      const response = await api.post('/auth/login', data);
+      if (!executeRecaptcha) {
+        toast.error('CAPTCHA not initialized yet');
+        setIsLoading(false);
+        return;
+      }
+
+      const token = await executeRecaptcha("login");
+      const payload = { ...data, captchaToken: token };
+
+      const response = await api.post('/auth/login', payload);
       const { access_token, user } = response.data;
       
       if (user.role !== data.role) {

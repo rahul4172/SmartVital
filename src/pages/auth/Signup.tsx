@@ -10,6 +10,7 @@ import { ClayCard } from '../../components/ui/ClayCard';
 import { ClayInput } from '../../components/ui/ClayInput';
 import { ClayButton } from '../../components/ui/ClayButton';
 import { api } from '../../api/axios';
+import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
 
 const signupSchema = z.object({
   full_name: z.string().min(2, "Full name is required"),
@@ -31,6 +32,7 @@ type SignupForm = z.infer<typeof signupSchema>;
 export function Signup() {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
+  const { executeRecaptcha } = useGoogleReCaptcha();
 
   const { register, handleSubmit, formState: { errors }, setValue, watch } = useForm<SignupForm>({
     resolver: zodResolver(signupSchema),
@@ -44,12 +46,21 @@ export function Signup() {
   const onSubmit = async (data: SignupForm) => {
     setIsLoading(true);
     try {
+      if (!executeRecaptcha) {
+        toast.error('CAPTCHA not initialized yet');
+        setIsLoading(false);
+        return;
+      }
+
+      const token = await executeRecaptcha("signup");
+
       const payload = {
         email: data.email,
         password: data.password,
         role: data.role,
         full_name: data.full_name,
-        phone: data.phone || null
+        phone: data.phone || null,
+        captchaToken: token
       };
       
       await api.post('/auth/signup', payload);

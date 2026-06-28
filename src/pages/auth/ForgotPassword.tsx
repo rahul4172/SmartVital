@@ -10,6 +10,7 @@ import { ClayCard } from '../../components/ui/ClayCard';
 import { ClayInput } from '../../components/ui/ClayInput';
 import { ClayButton } from '../../components/ui/ClayButton';
 import { api } from '../../api/axios';
+import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
 
 const forgotPasswordSchema = z.object({
   email: z.string().email("Invalid email address"),
@@ -32,6 +33,7 @@ export function ForgotPassword() {
   const [isLoading, setIsLoading] = useState(false);
   const [isSent, setIsSent] = useState(false);
   const [email, setEmail] = useState('');
+  const { executeRecaptcha } = useGoogleReCaptcha();
 
   const { register: registerForgot, handleSubmit: handleForgotSubmit, formState: { errors: forgotErrors } } = useForm<ForgotPasswordForm>({
     resolver: zodResolver(forgotPasswordSchema)
@@ -44,7 +46,15 @@ export function ForgotPassword() {
   const onForgotSubmit = async (data: ForgotPasswordForm) => {
     setIsLoading(true);
     try {
-      await api.post('/auth/forgot-password', { email: data.email });
+      if (!executeRecaptcha) {
+        toast.error('CAPTCHA not initialized yet');
+        setIsLoading(false);
+        return;
+      }
+
+      const token = await executeRecaptcha("forgot_password");
+
+      await api.post('/auth/forgot-password', { email: data.email, captchaToken: token });
       setEmail(data.email);
       setIsSent(true);
       toast.success('OTP sent to your email');
