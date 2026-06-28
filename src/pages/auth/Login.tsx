@@ -14,6 +14,8 @@ import { useAuthStore } from '../../store/auth.store';
 import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
 import { GoogleLogin } from '@react-oauth/google';
 
+import logoImg from '../../../public/logo.png';
+
 const loginSchema = z.object({
   email: z.string().email("Invalid email address"),
   password: z.string().min(1, "Password is required"),
@@ -113,7 +115,7 @@ export function Login() {
           className="hidden md:flex flex-col items-center justify-center text-center p-8"
         >
           <div className="mb-6">
-            <img src="/logo.png" alt="SmartVital Logo" width="220" height="220" className="object-contain drop-shadow-[0_0_35px_rgba(6,182,212,0.6)]" />
+            <img src={logoImg} alt="SmartVital Logo" width="220" height="220" className="object-contain drop-shadow-[0_0_35px_rgba(6,182,212,0.6)]" />
           </div>
           <h1 className="text-4xl font-bold text-[var(--text-primary)] mb-4">SmartVital</h1>
           <p className="text-[var(--text-secondary)] text-lg max-w-md">

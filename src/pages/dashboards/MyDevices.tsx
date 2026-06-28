@@ -113,7 +113,10 @@ export function MyDevices() {
                 <RefreshCw size={24} className={isSyncing ? "animate-spin text-[var(--primary)]" : ""} />
                 <span className="font-bold">{isSyncing ? 'Syncing...' : 'Force Sync Data'}</span>
               </button>
-              <button className="p-4 border-2 border-gray-100 rounded-2xl flex flex-col items-center justify-center gap-2 hover:border-[var(--primary)] hover:bg-[var(--primary-soft)] transition-colors text-[var(--text-secondary)] hover:text-[var(--primary)]">
+              <button 
+                onClick={() => window.dispatchEvent(new CustomEvent('open-settings'))}
+                className="p-4 border-2 border-gray-100 rounded-2xl flex flex-col items-center justify-center gap-2 hover:border-[var(--primary)] hover:bg-[var(--primary-soft)] transition-colors text-[var(--text-secondary)] hover:text-[var(--primary)]"
+              >
                 <Settings size={24} />
                 <span className="font-bold">Device Settings</span>
               </button>

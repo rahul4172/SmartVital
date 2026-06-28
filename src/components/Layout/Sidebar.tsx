@@ -12,6 +12,7 @@ import {
   Stethoscope, Calendar, Video, Smartphone, Settings, LogOut, ChevronLeft, ChevronRight,
   Sun, Moon, Shield, Users, Database, BarChart2, FileDigit, Cpu, UserCog, CheckSquare, List, MessageSquare
 } from 'lucide-react';
+import logoImg from '../../../public/logo.png';
 
 export function Sidebar() {
   const { user, role, clearAuth } = useAuthStore();
@@ -19,6 +20,12 @@ export function Sidebar() {
   const navigate = useNavigate();
   
   const [settingsOpen, setSettingsOpen] = useState(false);
+
+  useEffect(() => {
+    const handleOpenSettings = () => setSettingsOpen(true);
+    window.addEventListener('open-settings', handleOpenSettings);
+    return () => window.removeEventListener('open-settings', handleOpenSettings);
+  }, []);
 
   // Local state for desktop collapse
   const [isCollapsed, setIsCollapsed] = useState(() => {
@@ -239,7 +246,7 @@ export function Sidebar() {
         <div className="p-4 flex items-center justify-between border-b border-slate-200 dark:border-slate-800 h-[72px] shrink-0">
           <div className="flex items-center gap-3 overflow-hidden whitespace-nowrap">
             <div className="w-12 h-12 flex items-center justify-center shrink-0">
-              <img src="/logo.png" alt="Logo" className="w-full h-full object-contain" />
+              <img src={logoImg} alt="Logo" className="w-full h-full object-contain" />
             </div>
             {!isCollapsed && (
               <div className="transition-opacity duration-300">

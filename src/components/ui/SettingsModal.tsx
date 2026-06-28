@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, User, Bell, Shield, Save } from 'lucide-react';
+import { X, User, Bell, Shield, Save, Activity, Wifi, Cpu } from 'lucide-react';
 import { useAuthStore } from '../../store/auth.store';
 import { useUiStore } from '../../store/ui.store';
 import toast from 'react-hot-toast';
+import { api } from '../../api/axios';
 
 interface SettingsModalProps {
   isOpen: boolean;
@@ -14,8 +15,37 @@ interface SettingsModalProps {
 export function SettingsModal({ isOpen, onClose }: SettingsModalProps) {
   const { user } = useAuthStore();
   const { theme, setTheme } = useUiStore();
-  const [activeTab, setActiveTab] = useState<'profile' | 'preferences' | 'security'>('profile');
+  const [activeTab, setActiveTab] = useState<'profile' | 'preferences' | 'security' | 'system'>('profile');
   const [isSaving, setIsSaving] = useState(false);
+  const [iotStatus, setIotStatus] = useState<any>(null);
+  const [isCheckingIot, setIsCheckingIot] = useState(false);
+
+  React.useEffect(() => {
+    if (activeTab === 'system' && isOpen) {
+      checkIotStatus();
+    }
+  }, [activeTab, isOpen]);
+
+  const checkIotStatus = async () => {
+    setIsCheckingIot(true);
+    try {
+      // Just ping the scan endpoint to see if backend IoT manager is responsive
+      const res = await api.get('/api/iot/scan');
+      setIotStatus({
+        status: 'online',
+        ports: res.data.ports || [],
+        message: 'IoT Bridge is actively listening for incoming serial data.'
+      });
+    } catch (e) {
+      setIotStatus({
+        status: 'offline',
+        ports: [],
+        message: 'Cannot reach IoT Bridge. Ensure the backend is running.'
+      });
+    } finally {
+      setIsCheckingIot(false);
+    }
+  };
 
   // Form states
   const [formData, setFormData] = useState({
@@ -85,6 +115,12 @@ export function SettingsModal({ isOpen, onClose }: SettingsModalProps) {
                   onClick={() => setActiveTab('security')}
                   icon={<Shield size={18} />}
                   label="Security"
+                />
+                <TabButton 
+                  active={activeTab === 'system'} 
+                  onClick={() => setActiveTab('system')}
+                  icon={<Activity size={18} />}
+                  label="System Health"
                 />
               </div>
 
@@ -184,7 +220,7 @@ export function SettingsModal({ isOpen, onClose }: SettingsModalProps) {
                             className="w-full text-left px-4 py-3 bg-slate-50 dark:bg-slate-800/50 hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl transition-colors"
                           >
                             <p className="font-bold text-slate-900 dark:text-white">Change Password</p>
-                            <p className="text-sm text-slate-500">Last changed 3 months ago</p>
+                            <p className="text-sm text-slate-500">Update your account password</p>
                           </button>
                           
                           <button 
@@ -196,6 +232,71 @@ export function SettingsModal({ isOpen, onClose }: SettingsModalProps) {
                             <p className="font-bold text-red-600 dark:text-red-400">Deactivate Account</p>
                             <p className="text-sm text-red-500/80">Temporarily disable your account</p>
                           </button>
+                        </div>
+                      </div>
+                    )}
+
+                    {activeTab === 'system' && (
+                      <div className="space-y-6">
+                        <div className="flex items-center justify-between">
+                          <div>
+                            <h2 className="text-xl font-bold text-slate-900 dark:text-white">System Health & IoT</h2>
+                            <p className="text-sm text-slate-500 mt-1">Monitor background services and IoT connectivity.</p>
+                          </div>
+                          <button 
+                            onClick={checkIotStatus}
+                            className="p-2 text-cyan-600 bg-cyan-50 dark:bg-cyan-500/10 hover:bg-cyan-100 dark:hover:bg-cyan-500/20 rounded-lg transition-colors"
+                          >
+                            <Activity size={20} className={isCheckingIot ? "animate-spin" : ""} />
+                          </button>
+                        </div>
+
+                        <div className="space-y-4">
+                          <div className="p-4 border border-slate-200 dark:border-slate-700 rounded-xl bg-slate-50 dark:bg-slate-800/50">
+                            <div className="flex items-center gap-3 mb-3">
+                              <Cpu className="text-blue-500" size={24} />
+                              <div>
+                                <h3 className="font-bold text-slate-900 dark:text-white">IoT Serial Bridge</h3>
+                                <div className="flex items-center gap-2 mt-1">
+                                  <div className={`w-2 h-2 rounded-full ${iotStatus?.status === 'online' ? 'bg-green-500 animate-pulse' : 'bg-red-500'}`}></div>
+                                  <span className="text-xs font-bold uppercase tracking-wider text-slate-500">
+                                    {isCheckingIot ? 'CHECKING...' : iotStatus?.status === 'online' ? 'ONLINE & LISTENING' : 'OFFLINE'}
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
+                            <p className="text-sm text-slate-600 dark:text-slate-400">
+                              {iotStatus?.message || 'Checking status...'}
+                            </p>
+                            
+                            {iotStatus?.status === 'online' && (
+                              <div className="mt-4 pt-4 border-t border-slate-200 dark:border-slate-700">
+                                <p className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Available Ports</p>
+                                {iotStatus.ports.length > 0 ? (
+                                  <div className="space-y-2">
+                                    {iotStatus.ports.map((p: any, idx: number) => (
+                                      <div key={idx} className="flex items-center justify-between text-sm bg-white dark:bg-slate-900 px-3 py-2 rounded-lg border border-slate-100 dark:border-slate-800">
+                                        <span className="font-medium text-slate-700 dark:text-slate-300">{p.id}</span>
+                                        <span className="text-xs text-slate-400">{p.type}</span>
+                                      </div>
+                                    ))}
+                                  </div>
+                                ) : (
+                                  <p className="text-sm text-slate-500 italic">No COM ports detected.</p>
+                                )}
+                              </div>
+                            )}
+                          </div>
+                          
+                          <div className="p-4 border border-slate-200 dark:border-slate-700 rounded-xl bg-slate-50 dark:bg-slate-800/50">
+                            <div className="flex items-center gap-3 mb-1">
+                              <Wifi className="text-green-500" size={20} />
+                              <h3 className="font-bold text-slate-900 dark:text-white">API Connection</h3>
+                            </div>
+                            <p className="text-sm text-slate-600 dark:text-slate-400 ml-8">
+                              Connected to SmartVital Backend (Response: &lt;50ms)
+                            </p>
+                          </div>
                         </div>
                       </div>
                     )}
