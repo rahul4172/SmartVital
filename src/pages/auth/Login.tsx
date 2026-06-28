@@ -55,19 +55,6 @@ export function Login() {
         navigate(`/${user.role}/dashboard`);
       }
     } catch (error: any) {
-      if (!error.response || error.code === 'ERR_NETWORK' || error.response?.status >= 500) {
-        toast.success('(Mock Mode) Logged in successfully');
-        setAuth({
-          _id: "mock_user",
-          email: data.email,
-          role: data.role as any,
-          is_verified: true,
-          is_onboarded: true,
-          full_name: "Test User"
-        }, "mock_token");
-        navigate(`/${data.role}/dashboard`);
-        return;
-      }
       if (error.response?.status === 403) {
         toast.error('Account not verified. Check your email for OTP.');
         navigate('/verify-otp', { state: { email: data.email } });

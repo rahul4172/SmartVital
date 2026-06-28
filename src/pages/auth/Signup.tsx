@@ -57,11 +57,6 @@ export function Signup() {
       navigate('/verify-otp', { state: { email: data.email } });
       
     } catch (error: any) {
-      if (!error.response || error.code === 'ERR_NETWORK' || error.response?.status >= 500) {
-        toast.success('(Mock Mode) Account created!');
-        navigate('/verify-otp', { state: { email: data.email, mock: true, role: data.role } });
-        return;
-      }
       toast.error(error.response?.data?.detail || 'Signup failed');
     } finally {
       setIsLoading(false);

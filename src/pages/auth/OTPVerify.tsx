@@ -90,11 +90,6 @@ export function OTPVerify() {
       // Navigate to login to get proper tokens
       navigate('/login');
     } catch (error: any) {
-      if (!error.response || error.code === 'ERR_NETWORK' || error.response?.status >= 500) {
-        toast.success('(Mock Mode) Email verified! Proceeding to login.');
-        navigate('/login');
-        return;
-      }
       toast.error(error.response?.data?.detail || 'Verification failed');
     } finally {
       setIsLoading(false);

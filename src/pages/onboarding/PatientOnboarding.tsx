@@ -493,17 +493,6 @@ export function PatientOnboarding() {
       navigate('/patient/dashboard');
       
     } catch (error: any) {
-      if (!error.response || error.code === 'ERR_NETWORK' || error.response?.status >= 500) {
-        toast.success('(Mock Mode) Onboarding complete! Bypassing backend.');
-        const user = useAuthStore.getState().user;
-        const token = useAuthStore.getState().accessToken || "mock";
-        if (user) {
-          setAuth({ ...user, is_onboarded: true, full_name: getValues().full_name }, token);
-        }
-        navigate('/patient/dashboard');
-        return;
-      }
-      
       const detail = error.response?.data?.detail;
       let errorMessage = 'Failed to save profile';
       if (Array.isArray(detail)) {
