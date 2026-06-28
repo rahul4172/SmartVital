@@ -22,13 +22,13 @@ interface Question {
 const heartQuestions: Question[] = [
   { id: 'age', label: 'What is your age?', type: 'number' },
   { id: 'sex', label: 'What is your biological sex?', type: 'choice', options: [{ label: 'Male', value: 'M' }, { label: 'Female', value: 'F' }] },
-  { id: 'cp', label: 'Do you experience chest pain?', type: 'choice', options: [{ label: 'Typical Angina', value: 'TA' }, { label: 'Atypical Angina', value: 'ATA' }, { label: 'Non-anginal Pain', value: 'NAP' }, { label: 'No (Asymptomatic)', value: 'ASY' }], helpText: 'Typical angina is a tight, squeezing pain caused by reduced blood flow to the heart. Atypical angina has different symptoms. Non-anginal pain is usually sharp and not heart-related.' },
+  { id: 'cp', label: 'Do you experience chest pain?', type: 'choice', options: [{ label: 'Yes, typical tight/squeezing pain', value: 'TA' }, { label: 'Yes, but atypical/different pain', value: 'ATA' }, { label: 'Yes, but sharp/not heart-related', value: 'NAP' }, { label: 'No chest pain', value: 'ASY' }], helpText: 'Typical angina is a tight, squeezing pain caused by reduced blood flow to the heart.' },
   { id: 'resting_bp', label: 'What is your resting blood pressure (mmHg)?', type: 'number', defaultValue: 120, helpText: 'The pressure of your blood against your artery walls while resting. Normal is generally around 120/80 (enter the top number).' },
   { id: 'cholesterol', label: 'What is your cholesterol level (mg/dl)?', type: 'number', defaultValue: 200, helpText: 'A waxy substance in your blood. High levels can increase heart disease risk. Normal is usually under 200 mg/dL.' },
-  { id: 'fbs', label: 'Is your fasting blood sugar > 120 mg/dl?', type: 'choice', options: [{ label: 'Yes', value: 1 }, { label: 'No', value: 0 }], helpText: 'Measures your blood sugar after an overnight fast. >120 mg/dl can indicate prediabetes or diabetes.' },
-  { id: 'restecg', label: 'Resting Electrocardiogram Results?', type: 'choice', options: [{ label: 'Normal', value: 'Normal' }, { label: 'ST-T Wave Abnormality', value: 'ST' }, { label: 'Left Ventricular Hypertrophy', value: 'LVH' }] },
-  { id: 'max_hr', label: 'What is your maximum heart rate achieved?', type: 'number', defaultValue: 150, helpText: 'The highest your heart rate reached during intense exercise or a stress test.' },
-  { id: 'exang', label: 'Do you have exercise-induced angina?', type: 'choice', options: [{ label: 'Yes', value: 'Y' }, { label: 'No', value: 'N' }], helpText: 'Chest pain or discomfort that occurs specifically during physical activity.' },
+  { id: 'fbs', label: 'Is your blood sugar high before eating (Fasting > 120 mg/dl)?', type: 'choice', options: [{ label: 'Yes', value: 1 }, { label: 'No', value: 0 }], helpText: 'Measures your blood sugar after an overnight fast. >120 mg/dl can indicate prediabetes or diabetes.' },
+  { id: 'restecg', label: 'Resting ECG (Heart Rhythm Test) Results?', type: 'choice', options: [{ label: 'Normal', value: 'Normal' }, { label: 'Minor Abnormality (ST-T Wave)', value: 'ST' }, { label: 'Enlarged Heart Muscle (LVH)', value: 'LVH' }] },
+  { id: 'max_hr', label: 'What is the highest heart rate you can reach during exercise?', type: 'number', defaultValue: 150, helpText: 'The highest your heart rate reached during intense exercise or a stress test.' },
+  { id: 'exang', label: 'Do you feel chest pain or discomfort when you exercise?', type: 'choice', options: [{ label: 'Yes', value: 'Y' }, { label: 'No', value: 'N' }], helpText: 'Chest pain or discomfort that occurs specifically during physical activity.' },
   { id: 'oldpeak', label: 'Heart Stress During Exercise (User-friendly replacement for Oldpeak)', type: 'choice', options: [{ label: '0 - No symptoms during exercise', value: 0.0 }, { label: '1 - Mild breathlessness or tiredness', value: 0.8 }, { label: '2 - Chest discomfort or dizziness', value: 1.8 }, { label: '3 - Chest pain or severe breathlessness', value: 3.0 }], defaultValue: 0.0, helpText: 'Rate your level of discomfort or symptoms experienced specifically during physical activity.' },
   { id: 'slope', label: 'How severe are your symptoms during physical activity?', type: 'choice', options: [{ label: '✅ No or Mild Symptoms', value: 'Up' }, { label: '⚠️ Moderate Symptoms', value: 'Flat' }, { label: '🚨 Severe Symptoms', value: 'Down' }], helpText: 'This helps estimate your exercise recovery pattern (ST slope), an important indicator of heart stress.' }
 ];
@@ -36,9 +36,9 @@ const heartQuestions: Question[] = [
 const strokeQuestions: Question[] = [
   { id: 'age', label: 'What is your age?', type: 'number' },
   { id: 'gender', label: 'What is your gender?', type: 'choice', options: [{ label: 'Male', value: 'Male' }, { label: 'Female', value: 'Female' }] },
-  { id: 'hypertension', label: 'Do you have hypertension (high blood pressure)?', type: 'choice', options: [{ label: 'Yes', value: 1 }, { label: 'No', value: 0 }], helpText: 'A condition where the force of the blood against the artery walls is consistently too high (usually >130/80).' },
+  { id: 'hypertension', label: 'Do you have high blood pressure?', type: 'choice', options: [{ label: 'Yes', value: 1 }, { label: 'No', value: 0 }], helpText: 'A condition where the force of the blood against the artery walls is consistently too high (usually >130/80).' },
   { id: 'heart_disease', label: 'Do you have a history of heart disease?', type: 'choice', options: [{ label: 'Yes', value: 1 }, { label: 'No', value: 0 }] },
-  { id: 'avg_glucose_level', label: 'What is your average glucose level?', type: 'number', defaultValue: 100, helpText: 'The amount of sugar in your blood. Levels between 70-100 mg/dL are considered normal for fasting adults.' },
+  { id: 'avg_glucose_level', label: 'What is your average blood sugar (glucose) level?', type: 'number', defaultValue: 100, helpText: 'The amount of sugar in your blood. Levels between 70-100 mg/dL are considered normal for fasting adults.' },
   { id: 'bmi', label: 'What is your Body Mass Index (BMI)?', type: 'number', defaultValue: 25, helpText: 'A measure of body fat based on height and weight. Normal range is typically 18.5 to 24.9.' },
   { id: 'smoking_status', label: 'What is your smoking status?', type: 'choice', options: [{ label: 'Never Smoked', value: 'never smoked' }, { label: 'Formerly Smoked', value: 'formerly smoked' }, { label: 'Smokes', value: 'smokes' }, { label: 'Unknown', value: 'Unknown' }] }
 ];
@@ -50,7 +50,7 @@ const diabetesQuestions: Question[] = [
   { id: 'heart_disease', label: 'Do you have a history of heart disease?', type: 'choice', options: [{ label: 'Yes', value: 1 }, { label: 'No', value: 0 }] },
   { id: 'smoking_history', label: 'What is your smoking history?', type: 'choice', options: [{ label: 'Never', value: 'never' }, { label: 'Current', value: 'current' }, { label: 'Former', value: 'former' }, { label: 'No Info', value: 'No Info' }] },
   { id: 'bmi', label: 'What is your BMI?', type: 'number', defaultValue: 25 },
-  { id: 'HbA1c_level', label: 'What is your HbA1c level?', type: 'number', defaultValue: 5.5, helpText: 'Average blood sugar levels over the past 3 months. Normal is below 5.7%.' },
+  { id: 'HbA1c_level', label: 'What is your average blood sugar over 3 months (HbA1c)?', type: 'number', defaultValue: 5.5, helpText: 'Average blood sugar levels over the past 3 months. Normal is below 5.7%.' },
   { id: 'blood_glucose_level', label: 'What is your blood glucose level?', type: 'number', defaultValue: 100, helpText: 'Current blood sugar level.' }
 ];
 
