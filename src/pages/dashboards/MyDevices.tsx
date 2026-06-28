@@ -5,11 +5,26 @@ import { Smartphone, Battery, Wifi, Activity, Settings, RefreshCw, Plus, Watch }
 import { Link } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import { api } from '../../api/axios';
+import { useSmartVitalIoT } from '../../hooks/useSmartVitalIoT';
 
 export function MyDevices() {
   const [isSyncing, setIsSyncing] = useState(false);
   const [vitals, setVitals] = useState<any>(null);
   const [devices, setDevices] = useState<any[]>([]);
+  const { vitals: liveVitals, connected, mode } = useSmartVitalIoT();
+  const [iotMode, setIotMode] = useState<string>('mock');
+  const [isToggling, setIsToggling] = useState(false);
+
+  const fetchIotStatus = async () => {
+    try {
+      const res = await api.get('/api/iot/status');
+      if (res.data && res.data.iot_mode) {
+        setIotMode(res.data.iot_mode);
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  };
 
   const fetchVitals = async () => {
     try {
@@ -34,7 +49,22 @@ export function MyDevices() {
   useEffect(() => {
     fetchVitals();
     fetchDevices();
+    fetchIotStatus();
   }, []);
+
+  const toggleIotMode = async () => {
+    setIsToggling(true);
+    try {
+      const newMode = iotMode === 'mock' ? 'real' : 'mock';
+      await api.post('/api/iot/mode', { mode: newMode, scenario: 'normal' });
+      setIotMode(newMode);
+      toast.success(`Switched IoT to ${newMode.toUpperCase()} mode`);
+    } catch (e) {
+      toast.error('Failed to change mode');
+    } finally {
+      setIsToggling(false);
+    }
+  };
 
   const handleSync = async () => {
     setIsSyncing(true);
@@ -135,25 +165,39 @@ export function MyDevices() {
 
         {/* Live Metrics Feed */}
         <ClayCard className="p-6">
-          <div className="flex items-center gap-3 border-b border-gray-100 pb-4 mb-4">
-            <Activity className="text-[var(--info)]" size={20} />
-            <h3 className="text-lg font-bold text-[var(--text-primary)]">Live Sensor Feed</h3>
+          <div className="flex items-center justify-between border-b border-gray-100 pb-4 mb-4">
+            <div className="flex items-center gap-3">
+              <Activity className={connected ? "text-green-500" : "text-gray-400"} size={20} />
+              <h3 className="text-lg font-bold text-[var(--text-primary)]">Live Sensor Feed</h3>
+            </div>
+            {/* Toggle Switch */}
+            <div className="flex items-center gap-2">
+              <span className="text-xs font-bold text-gray-500 uppercase">Simulated</span>
+              <button 
+                onClick={toggleIotMode}
+                disabled={isToggling}
+                className={`relative inline-flex h-5 w-9 items-center rounded-full transition-colors ${iotMode === 'real' ? 'bg-cyan-500' : 'bg-gray-300'}`}
+              >
+                <span className={`inline-block h-3 w-3 transform rounded-full bg-white transition-transform ${iotMode === 'real' ? 'translate-x-5' : 'translate-x-1'}`} />
+              </button>
+              <span className="text-xs font-bold text-cyan-600 uppercase">Hardware</span>
+            </div>
           </div>
           <div className="space-y-4">
             <div className="bg-gray-50 rounded-xl p-4 flex justify-between items-center border border-gray-100">
               <span className="text-gray-600 font-medium">Heart Rate</span>
-              <span className="font-bold text-xl text-gray-800">{vitals?.heart_rate || '--'} <span className="text-sm font-normal text-gray-500">bpm</span></span>
+              <span className="font-bold text-xl text-gray-800">{liveVitals?.heartRate || '--'} <span className="text-sm font-normal text-gray-500">bpm</span></span>
             </div>
             <div className="bg-gray-50 rounded-xl p-4 flex justify-between items-center border border-gray-100">
               <span className="text-gray-600 font-medium">SpO2</span>
-              <span className="font-bold text-xl text-gray-800">{vitals?.spo2 || '--'} <span className="text-sm font-normal text-gray-500">%</span></span>
+              <span className="font-bold text-xl text-gray-800">{liveVitals?.spo2 || '--'} <span className="text-sm font-normal text-gray-500">%</span></span>
             </div>
             <div className="bg-gray-50 rounded-xl p-4 flex justify-between items-center border border-gray-100">
               <span className="text-gray-600 font-medium">Skin Temp</span>
-              <span className="font-bold text-xl text-gray-800">{vitals?.temperature || '98.6'} <span className="text-sm font-normal text-gray-500">°F</span></span>
+              <span className="font-bold text-xl text-gray-800">{liveVitals?.temperature || '--'} <span className="text-sm font-normal text-gray-500">°C</span></span>
             </div>
             <p className="text-xs text-center text-gray-400 mt-4">
-              Real-time telemetry directly from ESP32.
+              Real-time telemetry directly from {iotMode === 'mock' ? 'Mock Simulator' : 'ESP32/Hardware'}.
             </p>
           </div>
         </ClayCard>
