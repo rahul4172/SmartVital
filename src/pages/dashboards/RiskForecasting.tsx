@@ -69,21 +69,21 @@ export function RiskForecasting() {
       </div>
 
       {/* Model Selector */}
-      <div className="flex bg-gray-100 p-1 rounded-xl max-w-md">
+      <div className="flex bg-slate-100 dark:bg-slate-800 p-1 rounded-xl max-w-md">
         <button 
-          className={`flex-1 py-2 font-bold text-sm rounded-lg transition-colors ${modelType === 'heart' ? 'bg-white text-[var(--primary)] shadow-sm' : 'text-gray-500'}`}
+          className={`flex-1 py-2 font-bold text-sm rounded-lg transition-colors ${modelType === 'heart' ? 'bg-white dark:bg-slate-700 text-[var(--primary)] shadow-sm' : 'text-slate-500 dark:text-slate-400'}`}
           onClick={() => setModelType('heart')}
         >
           Heart Disease
         </button>
         <button 
-          className={`flex-1 py-2 font-bold text-sm rounded-lg transition-colors ${modelType === 'stroke' ? 'bg-white text-[var(--primary)] shadow-sm' : 'text-gray-500'}`}
+          className={`flex-1 py-2 font-bold text-sm rounded-lg transition-colors ${modelType === 'stroke' ? 'bg-white dark:bg-slate-700 text-[var(--primary)] shadow-sm' : 'text-slate-500 dark:text-slate-400'}`}
           onClick={() => setModelType('stroke')}
         >
           Stroke Risk
         </button>
         <button 
-          className={`flex-1 py-2 font-bold text-sm rounded-lg transition-colors ${modelType === 'diabetes' ? 'bg-white text-[var(--primary)] shadow-sm' : 'text-gray-500'}`}
+          className={`flex-1 py-2 font-bold text-sm rounded-lg transition-colors ${modelType === 'diabetes' ? 'bg-white dark:bg-slate-700 text-[var(--primary)] shadow-sm' : 'text-slate-500 dark:text-slate-400'}`}
           onClick={() => setModelType('diabetes')}
         >
           Diabetes Risk
@@ -96,7 +96,7 @@ export function RiskForecasting() {
         </ClayCard>
       ) : data.historical.length < 2 ? (
         <ClayCard className="p-12 flex flex-col items-center justify-center text-center h-[400px]">
-          <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mb-4 text-gray-400">
+          <div className="w-16 h-16 bg-slate-100 dark:bg-slate-800 rounded-full flex items-center justify-center mb-4 text-slate-400 dark:text-slate-500">
             <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
             </svg>
@@ -201,7 +201,7 @@ export function RiskForecasting() {
                   Based on your last 10 predictive models, your risk trajectory is currently trending {data.trend}.
                 </p>
 
-                <div className="p-4 bg-gray-50 rounded-xl text-left space-y-3">
+                <div className="p-4 bg-slate-50 dark:bg-slate-800/50 rounded-xl text-left space-y-3">
                   <div className="flex justify-between items-center">
                     <span className="text-sm font-medium text-[var(--text-secondary)]">30-Day Outlook</span>
                     <span className="font-bold text-[var(--text-primary)]">

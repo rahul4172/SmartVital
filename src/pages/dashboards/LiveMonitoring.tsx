@@ -39,7 +39,7 @@ export function LiveMonitoring() {
             {isConnected ? 'Device Connected' : 'Device Offline'}
           </span>
           {data?.mode && (
-             <span className="ml-2 text-xs font-bold px-2 py-1 bg-gray-100 rounded-md text-gray-500 uppercase">
+             <span className="ml-2 text-xs font-bold px-2 py-1 bg-slate-100 dark:bg-slate-800 rounded-md text-slate-500 dark:text-slate-400 uppercase">
                 {data.mode === 'SIMULATION' ? 'Mock Data' : 'Real Hardware'}
              </span>
           )}
@@ -130,8 +130,8 @@ export function LiveMonitoring() {
             <h3 className="text-sm font-bold text-[var(--text-secondary)] mb-4">Blood Pressure (BP Module)</h3>
             
             <div className="flex-1 flex flex-col items-center justify-center w-full">
-               <div className="text-3xl font-bold text-gray-800">
-                 {data?.systolic || '--'} <span className="text-gray-400 font-light">/</span> {data?.diastolic || '--'}
+               <div className="text-3xl font-bold text-slate-800 dark:text-white">
+                 {data?.systolic || '--'} <span className="text-slate-400 dark:text-slate-500 font-light">/</span> {data?.diastolic || '--'}
                </div>
                <div className="text-xs text-gray-400 mt-1 uppercase font-bold tracking-widest">mmHg</div>
                
@@ -161,7 +161,7 @@ export function LiveMonitoring() {
             <h3 className="text-sm font-bold text-[var(--text-secondary)] mb-4">Skin Conductance (GSR)</h3>
             
             <div className="flex-1 flex flex-col items-center justify-center w-full">
-               <div className="text-3xl font-bold text-gray-800">
+               <div className="text-3xl font-bold text-slate-800 dark:text-white">
                  {data?.gsrConductance || '--'}
                </div>
                <div className="text-xs text-gray-400 mt-1 uppercase font-bold tracking-widest">µS</div>
@@ -193,8 +193,8 @@ export function LiveMonitoring() {
                   <Activity size={18} />
                 </div>
                 <div>
-                   <h3 className="text-lg font-bold text-gray-900">Live ECG Waveform</h3>
-                   <p className="text-xs text-gray-500 font-medium">AD8232 Single-Lead Monitor (50-point PQRST array)</p>
+                   <h3 className="text-lg font-bold text-slate-900 dark:text-white">Live ECG Waveform</h3>
+                   <p className="text-xs text-slate-500 dark:text-slate-400 font-medium">AD8232 Single-Lead Monitor (50-point PQRST array)</p>
                 </div>
              </div>
              <div className="flex items-center gap-2">
@@ -203,7 +203,7 @@ export function LiveMonitoring() {
                 ) : isConnected && data?.ecgWaveform?.length > 0 ? (
                   <span className="text-xs font-bold bg-green-100 text-green-700 px-3 py-1 rounded-full">Lead Attached</span>
                 ) : (
-                  <span className="text-xs font-bold bg-gray-100 text-gray-500 px-3 py-1 rounded-full">Waiting...</span>
+                  <span className="text-xs font-bold bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 px-3 py-1 rounded-full">Waiting...</span>
                 )}
              </div>
           </div>
@@ -221,7 +221,7 @@ export function LiveMonitoring() {
               {history.length > 0 ? (
                 <VitalsChart data={history} dataKey="heart_rate" color="var(--heart)" />
               ) : (
-                <div className="h-full flex items-center justify-center bg-gray-50 border border-gray-100 rounded-xl text-sm text-[var(--text-muted)]">
+                <div className="h-full flex items-center justify-center bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-800 rounded-xl text-sm text-[var(--text-muted)]">
                   Waiting for data...
                 </div>
               )}
@@ -233,7 +233,7 @@ export function LiveMonitoring() {
               {history.length > 0 ? (
                 <VitalsChart data={history} dataKey="spo2" color="var(--info)" />
               ) : (
-                <div className="h-full flex items-center justify-center bg-gray-50 border border-gray-100 rounded-xl text-sm text-[var(--text-muted)]">
+                <div className="h-full flex items-center justify-center bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-800 rounded-xl text-sm text-[var(--text-muted)]">
                   Waiting for data...
                 </div>
               )}

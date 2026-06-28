@@ -13,12 +13,61 @@ interface SettingsModalProps {
 }
 
 export function SettingsModal({ isOpen, onClose }: SettingsModalProps) {
-  const { user } = useAuthStore();
+  const { user, clearAuth } = useAuthStore();
   const { theme, setTheme } = useUiStore();
   const [activeTab, setActiveTab] = useState<'profile' | 'preferences' | 'security' | 'system'>('profile');
   const [isSaving, setIsSaving] = useState(false);
   const [iotStatus, setIotStatus] = useState<any>(null);
   const [isCheckingIot, setIsCheckingIot] = useState(false);
+  
+  // Security Tab States
+  const [showPasswordForm, setShowPasswordForm] = useState(false);
+  const [passwordData, setPasswordData] = useState({ current: '', new: '', confirm: '' });
+  const [isChangingPassword, setIsChangingPassword] = useState(false);
+  const [isDeactivating, setIsDeactivating] = useState(false);
+
+  const handlePasswordChange = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (passwordData.new !== passwordData.confirm) {
+      toast.error('New passwords do not match');
+      return;
+    }
+    if (passwordData.new.length < 8) {
+      toast.error('Password must be at least 8 characters');
+      return;
+    }
+    setIsChangingPassword(true);
+    try {
+      await api.post('/auth/change-password', {
+        current_password: passwordData.current,
+        new_password: passwordData.new
+      });
+      toast.success('Password updated successfully');
+      setShowPasswordForm(false);
+      setPasswordData({ current: '', new: '', confirm: '' });
+    } catch (err: any) {
+      toast.error(err.response?.data?.detail || 'Failed to change password');
+    } finally {
+      setIsChangingPassword(false);
+    }
+  };
+
+  const handleDeactivate = async () => {
+    if (!window.confirm('Are you sure you want to deactivate your account? You will be logged out immediately.')) {
+      return;
+    }
+    setIsDeactivating(true);
+    try {
+      await api.post('/auth/deactivate');
+      toast.success('Account deactivated successfully');
+      onClose(); // close modal
+      clearAuth();
+      window.location.href = '/login'; // Redirect to login
+    } catch (err: any) {
+      toast.error(err.response?.data?.detail || 'Failed to deactivate account');
+      setIsDeactivating(false);
+    }
+  };
 
   React.useEffect(() => {
     if (activeTab === 'system' && isOpen) {
@@ -215,21 +264,69 @@ export function SettingsModal({ isOpen, onClose }: SettingsModalProps) {
                         </div>
 
                         <div className="space-y-4">
-                          <button 
-                            onClick={() => toast.success("Password reset instructions sent to your email")}
-                            className="w-full text-left px-4 py-3 bg-slate-50 dark:bg-slate-800/50 hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl transition-colors"
-                          >
-                            <p className="font-bold text-slate-900 dark:text-white">Change Password</p>
-                            <p className="text-sm text-slate-500">Update your account password</p>
-                          </button>
+                          {!showPasswordForm ? (
+                            <button 
+                              onClick={() => setShowPasswordForm(true)}
+                              className="w-full text-left px-4 py-3 bg-slate-50 dark:bg-slate-800/50 hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl transition-colors"
+                            >
+                              <p className="font-bold text-slate-900 dark:text-white">Change Password</p>
+                              <p className="text-sm text-slate-500">Update your account password</p>
+                            </button>
+                          ) : (
+                            <form onSubmit={handlePasswordChange} className="p-4 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl space-y-3">
+                              <h3 className="font-bold text-slate-900 dark:text-white mb-2">Change Password</h3>
+                              <input 
+                                type="password" 
+                                placeholder="Current Password"
+                                required
+                                value={passwordData.current}
+                                onChange={e => setPasswordData({...passwordData, current: e.target.value})}
+                                className="w-full px-4 py-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-900 dark:text-white focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500"
+                              />
+                              <input 
+                                type="password" 
+                                placeholder="New Password"
+                                required
+                                minLength={8}
+                                value={passwordData.new}
+                                onChange={e => setPasswordData({...passwordData, new: e.target.value})}
+                                className="w-full px-4 py-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-900 dark:text-white focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500"
+                              />
+                              <input 
+                                type="password" 
+                                placeholder="Confirm New Password"
+                                required
+                                value={passwordData.confirm}
+                                onChange={e => setPasswordData({...passwordData, confirm: e.target.value})}
+                                className="w-full px-4 py-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-900 dark:text-white focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500"
+                              />
+                              <div className="flex gap-2 pt-2">
+                                <button
+                                  type="submit"
+                                  disabled={isChangingPassword}
+                                  className="px-4 py-2 bg-cyan-600 hover:bg-cyan-700 text-white font-bold rounded-lg transition-colors flex-1 disabled:opacity-70"
+                                >
+                                  {isChangingPassword ? 'Saving...' : 'Update Password'}
+                                </button>
+                                <button
+                                  type="button"
+                                  onClick={() => setShowPasswordForm(false)}
+                                  className="px-4 py-2 bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300 font-bold rounded-lg transition-colors"
+                                >
+                                  Cancel
+                                </button>
+                              </div>
+                            </form>
+                          )}
                           
                           <button 
-                            onClick={() => {
-                              toast.error("Account deactivation is disabled in this environment.");
-                            }}
-                            className="w-full text-left px-4 py-3 bg-red-50 dark:bg-red-500/10 hover:bg-red-100 dark:hover:bg-red-500/20 border border-red-200 dark:border-red-900/30 rounded-xl transition-colors mt-8"
+                            onClick={handleDeactivate}
+                            disabled={isDeactivating}
+                            className="w-full text-left px-4 py-3 bg-red-50 dark:bg-red-500/10 hover:bg-red-100 dark:hover:bg-red-500/20 border border-red-200 dark:border-red-900/30 rounded-xl transition-colors mt-8 disabled:opacity-50"
                           >
-                            <p className="font-bold text-red-600 dark:text-red-400">Deactivate Account</p>
+                            <p className="font-bold text-red-600 dark:text-red-400">
+                              {isDeactivating ? 'Deactivating...' : 'Deactivate Account'}
+                            </p>
                             <p className="text-sm text-red-500/80">Temporarily disable your account</p>
                           </button>
                         </div>
