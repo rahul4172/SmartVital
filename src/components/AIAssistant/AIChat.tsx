@@ -104,7 +104,7 @@ export function AIChat() {
       {!isOpen && (
         <button
           onClick={toggleIsOpen}
-          style={{ position: 'fixed', bottom: '24px', right: '24px', width: '56px', height: '56px', backgroundColor: 'var(--primary, #3b82f6)', color: 'white', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)', zIndex: 999999 }}
+          className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 w-14 h-14 bg-[var(--primary)] text-white rounded-full flex items-center justify-center shadow-2xl z-[999999] hover:scale-105 transition-transform duration-200"
         >
           <Brain size={28} />
         </button>
@@ -113,7 +113,7 @@ export function AIChat() {
       {/* Chat Panel */}
       {isOpen && (
         <div 
-          style={{ position: 'fixed', bottom: '24px', right: '24px', width: '380px', height: '550px', backgroundColor: 'white', display: 'flex', flexDirection: 'column', borderRadius: '16px', boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)', zIndex: 999999 }}
+          className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 w-[calc(100vw-32px)] sm:w-[380px] h-[calc(100vh-100px)] sm:h-[600px] max-h-[800px] bg-white flex flex-col rounded-2xl shadow-[0_25px_50px_-12px_rgba(0,0,0,0.5)] z-[999999] overflow-hidden"
         >
           {/* Header */}
           <div className="bg-[var(--primary)] text-white p-4 rounded-t-2xl flex items-center justify-between shadow-sm">
