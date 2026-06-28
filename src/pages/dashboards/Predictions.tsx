@@ -29,8 +29,8 @@ const heartQuestions: Question[] = [
   { id: 'restecg', label: 'Resting Electrocardiogram Results?', type: 'choice', options: [{ label: 'Normal', value: 'Normal' }, { label: 'ST-T Wave Abnormality', value: 'ST' }, { label: 'Left Ventricular Hypertrophy', value: 'LVH' }] },
   { id: 'max_hr', label: 'What is your maximum heart rate achieved?', type: 'number', defaultValue: 150, helpText: 'The highest your heart rate reached during intense exercise or a stress test.' },
   { id: 'exang', label: 'Do you have exercise-induced angina?', type: 'choice', options: [{ label: 'Yes', value: 'Y' }, { label: 'No', value: 'N' }], helpText: 'Chest pain or discomfort that occurs specifically during physical activity.' },
-  { id: 'oldpeak', label: 'Oldpeak (ST depression induced by exercise)', type: 'number', defaultValue: 0, helpText: 'ST depression induced by exercise relative to rest (0 if unknown).' },
-  { id: 'slope', label: 'Slope of the peak exercise ST segment?', type: 'choice', options: [{ label: 'Upsloping', value: 'Up' }, { label: 'Flat', value: 'Flat' }, { label: 'Downsloping', value: 'Down' }] }
+  { id: 'oldpeak', label: 'Heart Stress During Exercise (User-friendly replacement for Oldpeak)', type: 'choice', options: [{ label: '0 - No symptoms during exercise', value: 0.0 }, { label: '1 - Mild breathlessness or tiredness', value: 0.8 }, { label: '2 - Chest discomfort or dizziness', value: 1.8 }, { label: '3 - Chest pain or severe breathlessness', value: 3.0 }], defaultValue: 0.0, helpText: 'Rate your level of discomfort or symptoms experienced specifically during physical activity.' },
+  { id: 'slope', label: 'How severe are your symptoms during physical activity?', type: 'choice', options: [{ label: '✅ No or Mild Symptoms', value: 'Up' }, { label: '⚠️ Moderate Symptoms', value: 'Flat' }, { label: '🚨 Severe Symptoms', value: 'Down' }], helpText: 'This helps estimate your exercise recovery pattern (ST slope), an important indicator of heart stress.' }
 ];
 
 const strokeQuestions: Question[] = [
