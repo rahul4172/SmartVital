@@ -7,7 +7,11 @@
 
 import { useState, useEffect, useRef, useCallback } from "react";
 
-const WS_URL = import.meta.env.VITE_WS_URL || "ws://localhost:8000/ws/vitals";
+const getWsUrl = () => {
+  const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:10000";
+  return apiUrl.replace(/^http/, 'ws') + '/api/iot/ws/vitals';
+};
+const WS_URL = import.meta.env.VITE_WS_URL || getWsUrl();
 
 export function useSmartVitalIoT() {
   const [vitals, setVitals]       = useState(null);
