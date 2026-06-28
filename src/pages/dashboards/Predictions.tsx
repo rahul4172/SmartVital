@@ -57,18 +57,18 @@ const diabetesQuestions: Question[] = [
 const lungQuestions: Question[] = [
   { id: 'age', label: 'What is your age?', type: 'number' },
   { id: 'smoker', label: 'Are you a smoker?', type: 'choice', options: [{ label: 'Yes', value: 1 }, { label: 'No', value: 0 }] },
-  { id: 'yellow_fingers', label: 'Do you have yellow fingers?', type: 'choice', options: [{ label: 'Yes', value: 2 }, { label: 'No', value: 1 }], helpText: 'Can be a physical sign of long-term heavy smoking or certain chronic illnesses.' },
-  { id: 'anxiety', label: 'Do you suffer from anxiety?', type: 'choice', options: [{ label: 'Yes', value: 2 }, { label: 'No', value: 1 }] },
-  { id: 'peer_pressure', label: 'Do you experience peer pressure?', type: 'choice', options: [{ label: 'Yes', value: 2 }, { label: 'No', value: 1 }] },
-  { id: 'chronic_disease', label: 'Do you have a chronic disease?', type: 'choice', options: [{ label: 'Yes', value: 2 }, { label: 'No', value: 1 }] },
-  { id: 'fatigue', label: 'Do you experience frequent fatigue?', type: 'choice', options: [{ label: 'Yes', value: 2 }, { label: 'No', value: 1 }] },
-  { id: 'allergy', label: 'Do you have allergies?', type: 'choice', options: [{ label: 'Yes', value: 2 }, { label: 'No', value: 1 }] },
-  { id: 'wheezing', label: 'Do you experience wheezing?', type: 'choice', options: [{ label: 'Yes', value: 2 }, { label: 'No', value: 1 }], helpText: 'A high-pitched whistling sound made while breathing, often associated with narrowed airways.' },
-  { id: 'alcohol', label: 'Do you consume alcohol frequently?', type: 'choice', options: [{ label: 'Yes', value: 2 }, { label: 'No', value: 1 }] },
-  { id: 'coughing', label: 'Do you experience persistent coughing?', type: 'choice', options: [{ label: 'Yes', value: 2 }, { label: 'No', value: 1 }] },
-  { id: 'shortness_of_breath', label: 'Do you experience shortness of breath?', type: 'choice', options: [{ label: 'Yes', value: 2 }, { label: 'No', value: 1 }] },
-  { id: 'swallowing_difficulty', label: 'Do you have difficulty swallowing?', type: 'choice', options: [{ label: 'Yes', value: 2 }, { label: 'No', value: 1 }] },
-  { id: 'chest_pain', label: 'Do you experience chest pain?', type: 'choice', options: [{ label: 'Yes', value: 2 }, { label: 'No', value: 1 }] }
+  { id: 'yellow_fingers', label: 'Are your fingers or nails yellowed?', type: 'choice', options: [{ label: 'Yes', value: 2 }, { label: 'No', value: 1 }], helpText: 'Can be a physical sign of long-term heavy smoking or certain chronic illnesses.' },
+  { id: 'anxiety', label: 'Do you often feel anxious or overly stressed?', type: 'choice', options: [{ label: 'Yes', value: 2 }, { label: 'No', value: 1 }] },
+  { id: 'peer_pressure', label: 'Are you often pressured by others to smoke or drink?', type: 'choice', options: [{ label: 'Yes', value: 2 }, { label: 'No', value: 1 }] },
+  { id: 'chronic_disease', label: 'Do you have any long-term medical conditions?', type: 'choice', options: [{ label: 'Yes', value: 2 }, { label: 'No', value: 1 }] },
+  { id: 'fatigue', label: 'Do you often feel unusually tired or exhausted?', type: 'choice', options: [{ label: 'Yes', value: 2 }, { label: 'No', value: 1 }] },
+  { id: 'allergy', label: 'Do you have any severe allergies?', type: 'choice', options: [{ label: 'Yes', value: 2 }, { label: 'No', value: 1 }] },
+  { id: 'wheezing', label: 'Do you make a whistling sound (wheeze) when you breathe?', type: 'choice', options: [{ label: 'Yes', value: 2 }, { label: 'No', value: 1 }], helpText: 'A high-pitched whistling sound made while breathing, often associated with narrowed airways.' },
+  { id: 'alcohol', label: 'Do you drink alcohol frequently?', type: 'choice', options: [{ label: 'Yes', value: 2 }, { label: 'No', value: 1 }] },
+  { id: 'coughing', label: 'Do you have a cough that won\'t go away?', type: 'choice', options: [{ label: 'Yes', value: 2 }, { label: 'No', value: 1 }] },
+  { id: 'shortness_of_breath', label: 'Do you easily run out of breath?', type: 'choice', options: [{ label: 'Yes', value: 2 }, { label: 'No', value: 1 }] },
+  { id: 'swallowing_difficulty', label: 'Is it painful or difficult to swallow?', type: 'choice', options: [{ label: 'Yes', value: 2 }, { label: 'No', value: 1 }] },
+  { id: 'chest_pain', label: 'Do you ever feel pain in your chest?', type: 'choice', options: [{ label: 'Yes', value: 2 }, { label: 'No', value: 1 }] }
 ];
 
 const questionMaps: Record<DiseaseModel, Question[]> = {
