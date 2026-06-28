@@ -1,95 +1,29 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { ClayCard } from '../../components/ui/ClayCard';
 import { RiskGauge } from '../../components/ui/RiskGauge';
-import { useAuthStore } from '../../store/auth.store';
-import toast from 'react-hot-toast';
-import { RefreshCw } from 'lucide-react';
-
+import { Activity, Heart, Thermometer, Droplets, ActivitySquare } from 'lucide-react';
 import { VitalsChart } from '../../components/charts/VitalsChart';
-
-interface SensorData {
-  heart_rate: number;
-  spo2: number;
-  temperature: number;
-  timestamp: string;
-}
+import { ECGChart } from '../../components/charts/ECGChart';
+import { useSmartVitalIoT } from '../../hooks/useSmartVitalIoT';
 
 export function LiveMonitoring() {
-  const { user } = useAuthStore();
-  const [data, setData] = useState<SensorData | null>(null);
+  const { vitals: data, connected: isConnected, error } = useSmartVitalIoT();
   const [history, setHistory] = useState<any[]>([]);
-  const [isConnected, setIsConnected] = useState(false);
-  const [connectionError, setConnectionError] = useState('');
-  const wsRef = useRef<WebSocket | null>(null);
-
-  const WS_URL = import.meta.env.VITE_WS_URL || 'wss://smartvital-backend.onrender.com/api/iot/ws';
 
   useEffect(() => {
-    // Connect to WebSocket
-    const connectWs = () => {
-      try {
-        const ws = new WebSocket(`${WS_URL}/${user?.id}`);
-        
-        ws.onopen = () => {
-          setIsConnected(true);
-          setConnectionError('');
-          toast.success('Connected to health monitor');
-        };
-
-        ws.onmessage = (event) => {
-          try {
-            const parsed = JSON.parse(event.data);
-            setData(parsed);
-            setHistory(prev => {
-              const newHistory = [...prev, {
-                time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' }),
-                heart_rate: parsed.heart_rate,
-                spo2: parsed.spo2,
-              }];
-              // Keep last 30 data points for the graph
-              return newHistory.slice(-30);
-            });
-          } catch (e) {
-            console.error('Error parsing WS data', e);
-          }
-        };
-
-        ws.onclose = () => {
-          setIsConnected(false);
-          wsRef.current = null;
-        };
-
-        ws.onerror = (error) => {
-          console.error('WebSocket Error:', error);
-          setConnectionError('Failed to connect to device');
-          setIsConnected(false);
-        };
-
-        wsRef.current = ws;
-      } catch (error) {
-        setConnectionError('WebSocket initialization failed');
-      }
-    };
-
-    connectWs();
-
-    return () => {
-      if (wsRef.current) {
-        wsRef.current.close();
-      }
-    };
-  }, [user?.id, WS_URL]);
-
-  const reconnect = () => {
-    if (wsRef.current) {
-      wsRef.current.close();
+    if (data && data.heartRate && data.spo2) {
+      setHistory(prev => {
+        const newHistory = [...prev, {
+          time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' }),
+          heart_rate: data.heartRate,
+          spo2: data.spo2,
+        }];
+        // Keep last 30 data points for the graph
+        return newHistory.slice(-30);
+      });
     }
-    setIsConnected(false);
-    setConnectionError('');
-    // Trigger useEffect re-run by unmounting/remounting or just waiting for the interval
-    toast('Reconnecting...', { icon: <RefreshCw size={16} className="animate-spin text-blue-500" /> });
-  };
+  }, [data?.timestamp]); // Use timestamp as dependency to only run when new payload arrives
 
   return (
     <div className="space-y-8">
@@ -104,44 +38,43 @@ export function LiveMonitoring() {
           <span className="text-sm font-bold text-[var(--text-primary)]">
             {isConnected ? 'Device Connected' : 'Device Offline'}
           </span>
-          {!isConnected && (
-            <button onClick={reconnect} className="ml-2 text-xs text-[var(--primary)] hover:underline">
-              Reconnect
-            </button>
+          {data?.mode && (
+             <span className="ml-2 text-xs font-bold px-2 py-1 bg-gray-100 rounded-md text-gray-500 uppercase">
+                {data.mode === 'SIMULATION' ? 'Mock Data' : 'Real Hardware'}
+             </span>
           )}
         </div>
       </div>
 
-      {connectionError && !isConnected && (
+      {error && !isConnected && (
         <div className="bg-[var(--danger-soft)] text-[var(--danger)] p-4 rounded-xl border border-[var(--danger)] flex items-start gap-3">
           <svg className="w-5 h-5 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
           </svg>
           <div>
             <h4 className="font-bold">Connection Error</h4>
-            <p className="text-sm">{connectionError}. Please ensure your ESP32 device is powered on and connected to WiFi.</p>
+            <p className="text-sm">{error}. Please ensure your ESP32 device or Mock server is running.</p>
           </div>
         </div>
       )}
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+      {/* Main 5 Sensors Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         
         {/* Heart Rate */}
         <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.1 }}>
-          <ClayCard className="p-8 flex flex-col items-center text-center h-full">
-            <div className="w-16 h-16 rounded-full bg-[var(--danger-soft)] text-[var(--heart)] flex items-center justify-center text-3xl mb-6 shadow-sm">
-              <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+          <ClayCard className="p-6 flex flex-col items-center text-center h-full">
+            <div className="w-12 h-12 rounded-full bg-[var(--danger-soft)] text-[var(--heart)] flex items-center justify-center mb-4 shadow-sm">
+              <Heart size={24} className={isConnected ? "animate-pulse" : ""} />
             </div>
-            <h3 className="text-lg font-bold text-[var(--text-secondary)] mb-4">Heart Rate</h3>
-            
+            <h3 className="text-sm font-bold text-[var(--text-secondary)] mb-4">Heart Rate (MAX30102)</h3>
             <RiskGauge 
-              score={data?.heart_rate || 0} 
+              score={data?.heartRate || 0} 
               maxScore={200}
-              label={data ? `${data.heart_rate} bpm` : '--'} 
-              size={200} 
+              label={data?.heartRate ? `${data.heartRate} bpm` : '--'} 
+              size={160} 
             />
-            
-            <div className="mt-6 w-full pt-6 border-t border-gray-100 flex justify-between text-sm">
+            <div className="mt-4 w-full pt-4 border-t border-gray-100 flex justify-between text-xs">
               <span className="text-[var(--text-muted)]">Normal range</span>
               <span className="font-bold text-[var(--text-primary)]">60 - 100 bpm</span>
             </div>
@@ -150,20 +83,18 @@ export function LiveMonitoring() {
 
         {/* SpO2 */}
         <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.2 }}>
-          <ClayCard className="p-8 flex flex-col items-center text-center h-full">
-            <div className="w-16 h-16 rounded-full bg-[var(--info-soft)] text-[var(--info)] flex items-center justify-center text-3xl mb-6 shadow-sm">
-              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+          <ClayCard className="p-6 flex flex-col items-center text-center h-full">
+            <div className="w-12 h-12 rounded-full bg-[var(--info-soft)] text-[var(--info)] flex items-center justify-center mb-4 shadow-sm">
+              <Droplets size={24} />
             </div>
-            <h3 className="text-lg font-bold text-[var(--text-secondary)] mb-4">Oxygen Saturation</h3>
-            
+            <h3 className="text-sm font-bold text-[var(--text-secondary)] mb-4">SpO2 (MAX30102)</h3>
             <RiskGauge 
               score={data?.spo2 || 0} 
               maxScore={100}
-              label={data ? `${data.spo2}%` : '--'} 
-              size={200} 
+              label={data?.spo2 ? `${data.spo2}%` : '--'} 
+              size={160} 
             />
-            
-            <div className="mt-6 w-full pt-6 border-t border-gray-100 flex justify-between text-sm">
+            <div className="mt-4 w-full pt-4 border-t border-gray-100 flex justify-between text-xs">
               <span className="text-[var(--text-muted)]">Normal range</span>
               <span className="font-bold text-[var(--text-primary)]">&gt; 95%</span>
             </div>
@@ -172,31 +103,117 @@ export function LiveMonitoring() {
 
         {/* Temperature */}
         <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.3 }}>
-          <ClayCard className="p-8 flex flex-col items-center text-center h-full">
-            <div className="w-16 h-16 rounded-full bg-[var(--warning-soft)] text-[var(--warning)] flex items-center justify-center text-3xl mb-6 shadow-sm">
-              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14 14.76V3.5a2.5 2.5 0 0 0-5 0v11.26a4.5 4.5 0 1 0 5 0z"/></svg>
+          <ClayCard className="p-6 flex flex-col items-center text-center h-full">
+            <div className="w-12 h-12 rounded-full bg-[var(--warning-soft)] text-[var(--warning)] flex items-center justify-center mb-4 shadow-sm">
+              <Thermometer size={24} />
             </div>
-            <h3 className="text-lg font-bold text-[var(--text-secondary)] mb-4">Body Temperature</h3>
-            
+            <h3 className="text-sm font-bold text-[var(--text-secondary)] mb-4">Body Temp (DHT22)</h3>
             <RiskGauge 
-              score={data ? ((data.temperature - 35) / (40 - 35)) * 100 : 0} 
+              score={data?.temperature ? ((data.temperature - 35) / (40 - 35)) * 100 : 0} 
               maxScore={100}
-              label={data ? `${data.temperature.toFixed(1)}°C` : '--'} 
-              size={200} 
+              label={data?.temperature ? `${data.temperature.toFixed(1)}°C` : '--'} 
+              size={160} 
             />
-            
-            <div className="mt-6 w-full pt-6 border-t border-gray-100 flex justify-between text-sm">
+            <div className="mt-4 w-full pt-4 border-t border-gray-100 flex justify-between text-xs">
               <span className="text-[var(--text-muted)]">Normal range</span>
               <span className="font-bold text-[var(--text-primary)]">36.1 - 37.2°C</span>
             </div>
           </ClayCard>
         </motion.div>
 
+        {/* Blood Pressure */}
+        <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.4 }}>
+          <ClayCard className="p-6 flex flex-col items-center text-center h-full">
+            <div className="w-12 h-12 rounded-full bg-purple-100 text-purple-600 flex items-center justify-center mb-4 shadow-sm">
+              <ActivitySquare size={24} />
+            </div>
+            <h3 className="text-sm font-bold text-[var(--text-secondary)] mb-4">Blood Pressure (BP Module)</h3>
+            
+            <div className="flex-1 flex flex-col items-center justify-center w-full">
+               <div className="text-3xl font-bold text-gray-800">
+                 {data?.systolic || '--'} <span className="text-gray-400 font-light">/</span> {data?.diastolic || '--'}
+               </div>
+               <div className="text-xs text-gray-400 mt-1 uppercase font-bold tracking-widest">mmHg</div>
+               
+               {data?.bpCategory && (
+                 <div className={`mt-4 px-3 py-1 rounded-full text-xs font-bold ${
+                   data.bpCategory === 'Normal' ? 'bg-green-100 text-green-700' :
+                   data.bpCategory === 'Elevated' ? 'bg-yellow-100 text-yellow-700' : 'bg-red-100 text-red-700'
+                 }`}>
+                   {data.bpCategory}
+                 </div>
+               )}
+            </div>
+            
+            <div className="mt-4 w-full pt-4 border-t border-gray-100 flex justify-between text-xs">
+              <span className="text-[var(--text-muted)]">Normal range</span>
+              <span className="font-bold text-[var(--text-primary)]">&lt; 120/80</span>
+            </div>
+          </ClayCard>
+        </motion.div>
+
+        {/* GSR Stress */}
+        <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.5 }}>
+          <ClayCard className="p-6 flex flex-col items-center text-center h-full">
+            <div className="w-12 h-12 rounded-full bg-orange-100 text-orange-500 flex items-center justify-center mb-4 shadow-sm">
+              <Activity size={24} />
+            </div>
+            <h3 className="text-sm font-bold text-[var(--text-secondary)] mb-4">Skin Conductance (GSR)</h3>
+            
+            <div className="flex-1 flex flex-col items-center justify-center w-full">
+               <div className="text-3xl font-bold text-gray-800">
+                 {data?.gsrConductance || '--'}
+               </div>
+               <div className="text-xs text-gray-400 mt-1 uppercase font-bold tracking-widest">µS</div>
+               
+               {data?.stressLevel && (
+                 <div className={`mt-4 px-3 py-1 rounded-full text-xs font-bold ${
+                   data.stressLevel === 'Low' ? 'bg-green-100 text-green-700' :
+                   data.stressLevel === 'Moderate' ? 'bg-yellow-100 text-yellow-700' : 'bg-red-100 text-red-700'
+                 }`}>
+                   Stress: {data.stressLevel}
+                 </div>
+               )}
+            </div>
+            
+            <div className="mt-4 w-full pt-4 border-t border-gray-100 flex justify-between text-xs">
+              <span className="text-[var(--text-muted)]">Normal range</span>
+              <span className="font-bold text-[var(--text-primary)]">&lt; 0.6 µS</span>
+            </div>
+          </ClayCard>
+        </motion.div>
       </div>
+
+      {/* ECG Waveform Display */}
+      <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.6 }}>
+        <ClayCard className="p-6 border-2 border-red-500/10 shadow-[0_8px_30px_rgb(239,68,68,0.1)]">
+          <div className="flex items-center justify-between mb-4">
+             <div className="flex items-center gap-3">
+                <div className="w-8 h-8 rounded-full bg-red-100 text-red-500 flex items-center justify-center">
+                  <Activity size={18} />
+                </div>
+                <div>
+                   <h3 className="text-lg font-bold text-gray-900">Live ECG Waveform</h3>
+                   <p className="text-xs text-gray-500 font-medium">AD8232 Single-Lead Monitor (50-point PQRST array)</p>
+                </div>
+             </div>
+             <div className="flex items-center gap-2">
+                {data?.ecgLeadOff ? (
+                  <span className="text-xs font-bold bg-red-100 text-red-700 px-3 py-1 rounded-full animate-pulse">Lead Off</span>
+                ) : isConnected && data?.ecgWaveform?.length > 0 ? (
+                  <span className="text-xs font-bold bg-green-100 text-green-700 px-3 py-1 rounded-full">Lead Attached</span>
+                ) : (
+                  <span className="text-xs font-bold bg-gray-100 text-gray-500 px-3 py-1 rounded-full">Waiting...</span>
+                )}
+             </div>
+          </div>
+          <ECGChart data={data?.ecgWaveform || []} color="#ef4444" />
+        </ClayCard>
+      </motion.div>
 
       {/* Connection Status Log / Graph placeholder */}
       <ClayCard className="p-6">
-        <h3 className="text-xl font-bold text-[var(--text-primary)] mb-4">Historical Trend</h3>
+        <h3 className="text-xl font-bold text-[var(--text-primary)] mb-4">Historical Trend (Session)</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
             <h4 className="text-sm font-bold text-[var(--text-secondary)] mb-2">Heart Rate (bpm)</h4>
