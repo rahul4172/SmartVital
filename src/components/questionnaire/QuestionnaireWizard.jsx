@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowRight, ArrowLeft, Activity, CheckCircle, Loader2 } from 'lucide-react';
-import ResultCard from './ResultCard';
+import ResultCard from '../assessments/ResultCard';
 
 const QuestionnaireWizard = ({ disease, questionDefinitions }) => {
   const [currentTier, setCurrentTier] = useState(1);
@@ -90,7 +90,11 @@ const QuestionnaireWizard = ({ disease, questionDefinitions }) => {
           <ArrowLeft className="w-4 h-4" />
           Back to Questions
         </button>
-        <ResultCard result={result} onUpgrade={handleUpgrade} />
+        <ResultCard 
+          disease={result.disease || disease} 
+          result={result} 
+          onReset={handleBack} 
+        />
       </div>
     );
   }
