@@ -4,27 +4,21 @@ export const strokeQuestions = [
     title: "Basic Demographics & Lifestyle",
     questions: [
       { id: "age", type: "number", label: "What is your age?", min: 18, max: 120, default: 50 },
-      { id: "sex", type: "select", label: "Biological Sex", options: ["Female", "Male", "Other"] },
-      { id: "married", type: "select", label: "Have you ever been married?", options: [{value: "no", label: "No"}, {value: "yes", label: "Yes"}] },
-      { id: "work_type", type: "select", label: "What is your primary work type?", options: [{value: "Private", label: "Private Sector"}, {value: "Self-employed", label: "Self-Employed"}, {value: "Govt_job", label: "Government Job"}, {value: "children", label: "Student / Child"}, {value: "Never_worked", label: "Never Worked"}] },
-      { id: "residence", type: "select", label: "Residence Type", options: [{value: "Urban", label: "Urban / City"}, {value: "Rural", label: "Rural / Countryside"}] }
+      { id: "gender", type: "select", label: "Biological Sex", options: ["Male", "Female"] },
+      { id: "ever_married", type: "select", label: "Ever Married?", options: ["Yes", "No"] },
+      { id: "work_type", type: "select", label: "Work Type", options: ["Private", "Self-employed", "Govt_job", "children", "Never_worked"] },
+      { id: "Residence_type", type: "select", label: "Residence Type", options: ["Urban", "Rural"] },
+      { id: "smoking_status", type: "select", label: "Smoking Status", options: ["never smoked", "formerly smoked", "smokes", "Unknown"] }
     ]
   },
   {
     tier: 2,
-    title: "Symptoms & Medical History",
+    title: "Medical History",
     questions: [
-      { id: "smoker", type: "select", label: "Do you smoke?", options: [{value: "never", label: "Never"}, {value: "past", label: "Past Smoker"}, {value: "current", label: "Current Smoker"}] },
-      { id: "bmi", type: "select", label: "How would you describe your body weight?", options: [{value: "underweight", label: "Underweight"}, {value: "normal", label: "Normal/Average"}, {value: "overweight", label: "Overweight"}, {value: "obese", label: "Obese"}] },
-      { id: "prior_heart_attack", type: "select", label: "Do you have any heart disease or have you had a heart attack?", options: [{value: "no", label: "No"}, {value: "yes", label: "Yes"}] }
-    ]
-  },
-  {
-    tier: 3,
-    title: "Clinical / Lab Values (Optional)",
-    questions: [
-      { id: "bp_known", type: "select", label: "Do you know if you have high blood pressure (Hypertension)?", options: [{value: "no", label: "No / Normal"}, {value: "yes_high", label: "Yes, I do"}, {value: "dont_know", label: "I don't know"}] },
-      { id: "glucose_known", type: "select", label: "Do you know if your average blood glucose is high?", options: [{value: "no", label: "No / Normal"}, {value: "yes_high", label: "Yes, it is high"}, {value: "dont_know", label: "I don't know / Never tested"}] }
+      { id: "hypertension", type: "select", label: "Do you have Hypertension?", options: [{value: 0, label: "No"}, {value: 1, label: "Yes"}] },
+      { id: "heart_disease", type: "select", label: "Do you have Heart Disease?", options: [{value: 0, label: "No"}, {value: 1, label: "Yes"}] },
+      { id: "bmi", type: "number", label: "Body Mass Index (BMI)", min: 10, max: 70, default: 25 },
+      { id: "avg_glucose_level", type: "number", label: "Average Glucose Level (mg/dL)", min: 40, max: 300, default: 100 }
     ]
   }
 ];

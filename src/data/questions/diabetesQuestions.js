@@ -1,30 +1,22 @@
 export const diabetesQuestions = [
   {
     tier: 1,
-    title: "Basic Demographics & Lifestyle",
+    title: "Basic Demographics",
     questions: [
-      { id: "age", type: "number", label: "What is your age?", min: 18, max: 120, default: 50 },
-      { id: "sex", type: "select", label: "Biological Sex", options: ["Female", "Male", "Other"] },
-      { id: "smoker", type: "select", label: "Do you smoke?", options: [{value: "never", label: "Never"}, {value: "past", label: "Past Smoker"}, {value: "current", label: "Current Smoker"}] },
-      { id: "bmi", type: "select", label: "How would you describe your body weight?", options: [{value: "underweight", label: "Underweight"}, {value: "normal", label: "Normal/Average"}, {value: "overweight", label: "Overweight"}, {value: "obese", label: "Obese"}] }
+      { id: "Age", type: "number", label: "What is your age?", min: 18, max: 120, default: 45 },
+      { id: "BMI", type: "number", label: "What is your Body Mass Index (BMI)?", min: 10, max: 70, default: 25 },
+      { id: "Pregnancies", type: "number", label: "Number of times pregnant (0 if Male/None)", min: 0, max: 20, default: 0 }
     ]
   },
   {
     tier: 2,
-    title: "Symptoms & Medical History",
+    title: "Clinical Measurements",
     questions: [
-      { id: "thirsty", type: "select", label: "Do you feel excessively thirsty?", options: [{value: "never", label: "No"}, {value: "sometimes", label: "Sometimes"}, {value: "often", label: "Yes, often"}] },
-      { id: "urinate", type: "select", label: "Do you urinate more frequently than usual (especially at night)?", options: [{value: "no", label: "No"}, {value: "yes", label: "Yes"}] },
-      { id: "prior_heart_attack", type: "select", label: "Do you have any heart disease or have you had a heart attack?", options: [{value: "no", label: "No"}, {value: "yes", label: "Yes"}] }
-    ]
-  },
-  {
-    tier: 3,
-    title: "Clinical / Lab Values (Optional)",
-    questions: [
-      { id: "bp_known", type: "select", label: "Do you know if you have high blood pressure (Hypertension)?", options: [{value: "no", label: "No / Normal"}, {value: "yes_high", label: "Yes, I do"}, {value: "dont_know", label: "I don't know"}] },
-      { id: "hba1c_known", type: "select", label: "Have you been told your HbA1c is high?", options: [{value: "no", label: "No / Normal"}, {value: "yes_high", label: "Yes, it is high (over 6.5%)"}, {value: "dont_know", label: "I don't know / Never tested"}] },
-      { id: "glucose_known", type: "select", label: "Do you know if your fasting blood glucose is high?", options: [{value: "no", label: "No / Normal"}, {value: "yes_high", label: "Yes, it is high (over 126 mg/dL)"}, {value: "dont_know", label: "I don't know / Never tested"}] }
+      { id: "Glucose", type: "number", label: "Glucose Level (mg/dL)", min: 0, max: 400, default: 100 },
+      { id: "BloodPressure", type: "number", label: "Diastolic Blood Pressure (mm Hg)", min: 0, max: 200, default: 80 },
+      { id: "SkinThickness", type: "number", label: "Triceps skin fold thickness (mm)", min: 0, max: 100, default: 20 },
+      { id: "Insulin", type: "number", label: "2-Hour serum insulin (mu U/ml)", min: 0, max: 900, default: 80 },
+      { id: "DiabetesPedigreeFunction", type: "number", label: "Diabetes Pedigree Function (Genetics)", min: 0, max: 3, default: 0.5 }
     ]
   }
 ];
