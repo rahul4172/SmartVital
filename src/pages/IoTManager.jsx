@@ -3,6 +3,21 @@ import { motion } from 'framer-motion';
 import { Activity, Radio, Cpu, Power, PowerOff, ShieldAlert, HeartPulse } from 'lucide-react';
 import { api } from '../api/client';
 
+const MetricCard = ({ label, value, unit, icon: Icon, colorClass, connected }) => (
+  <div className="bg-slate-900/50 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-6 shadow-xl relative overflow-hidden group">
+    <div className={`absolute top-0 right-0 w-24 h-24 ${colorClass.replace('text-', 'bg-').replace('-400', '-500')}/10 rounded-bl-full -z-10`} />
+    <div className="flex items-center justify-between mb-4">
+      <span className="text-slate-400 font-medium">{label}</span>
+      <Icon size={24} className={colorClass} />
+    </div>
+    <div className="flex items-baseline gap-2">
+      <span className="text-4xl font-bold text-white tracking-tight">{value}</span>
+      <span className="text-slate-500 font-medium">{unit}</span>
+    </div>
+    {connected && <div className={`absolute inset-0 border-2 rounded-2xl ${colorClass.replace('text-', 'border-')}/30 animate-pulse pointer-events-none`} />}
+  </div>
+);
+
 export default function IoTManager() {
   const [ports, setPorts] = useState([]);
   const [connected, setConnected] = useState(false);
@@ -61,22 +76,6 @@ export default function IoTManager() {
       console.error(err);
     }
   };
-
-  const MetricCard = ({ label, value, unit, icon: Icon, colorClass }) => (
-    <div className="bg-slate-900/50 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-6 shadow-xl relative overflow-hidden group">
-      <div className={`absolute top-0 right-0 w-24 h-24 ${colorClass.replace('text-', 'bg-').replace('-400', '-500')}/10 rounded-bl-full -z-10`} />
-      <div className="flex items-center justify-between mb-4">
-        <span className="text-slate-400 font-medium">{label}</span>
-        <Icon size={24} className={colorClass} />
-      </div>
-      <div className="flex items-baseline gap-2">
-        <span className="text-4xl font-bold text-white tracking-tight">{value}</span>
-        <span className="text-slate-500 font-medium">{unit}</span>
-      </div>
-      {/* Pulse Animation overlay when connected */}
-      {connected && <div className={`absolute inset-0 border-2 rounded-2xl ${colorClass.replace('text-', 'border-')}/30 animate-pulse pointer-events-none`} />}
-    </div>
-  );
 
   return (
     <div className="animate-fade-in max-w-6xl mx-auto space-y-8">

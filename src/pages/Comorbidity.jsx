@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { GitMerge, Activity, AlertTriangle } from 'lucide-react';
+import { GitMerge, Activity, AlertTriangle, ShieldCheck } from 'lucide-react';
 import { api } from '../api/client';
 
 export default function Comorbidity() {

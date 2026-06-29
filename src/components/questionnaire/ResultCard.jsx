@@ -26,8 +26,8 @@ const ResultCard = ({ disease, result }) => {
     }
   };
 
-  const RiskIcon = () => {
-    switch (risk_level?.toUpperCase()) {
+  const getRiskIcon = (level) => {
+    switch (level?.toUpperCase()) {
       case 'LOW': return <ShieldCheck className="w-12 h-12 text-green-500" />;
       case 'MODERATE': return <Shield className="w-12 h-12 text-yellow-500" />;
       case 'HIGH': return <ShieldAlert className="w-12 h-12 text-orange-500" />;
@@ -46,7 +46,7 @@ const ResultCard = ({ disease, result }) => {
       <div className="flex flex-col md:flex-row items-center md:items-start justify-between gap-6">
         <div className="flex items-center gap-4">
           <div className="p-3 bg-white/5 rounded-2xl border border-white/10">
-            <RiskIcon />
+            {getRiskIcon(risk_level)}
           </div>
           <div>
             <h2 className="text-3xl font-bold text-white capitalize">{displayDisease} Risk Profile</h2>
