@@ -1,9 +1,9 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { ShieldAlert, ShieldCheck, Shield, Activity, ArrowRight, AlertTriangle, Lightbulb } from 'lucide-react';
+import { ShieldAlert, ShieldCheck, Shield, Activity, AlertTriangle, Lightbulb } from 'lucide-react';
 import clsx from 'clsx';
 
-const ResultCard = ({ disease, result, onReset }) => {
+const ResultCard = ({ disease, result }) => {
   // Use fallbacks for missing properties
   const { 
     disease: resultDisease,
@@ -11,7 +11,6 @@ const ResultCard = ({ disease, result, onReset }) => {
     risk_score = 0, 
     preventive_actions = [], 
     shap_data = [],
-    lime_data = [],
     narrative = ""
   } = result || {};
 
