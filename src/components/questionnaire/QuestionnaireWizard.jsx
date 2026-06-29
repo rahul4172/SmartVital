@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowRight, ArrowLeft, Activity, CheckCircle, Loader2 } from 'lucide-react';
-import ResultCard from '../assessments/ResultCard';
+import ResultCard from './ResultCard';
 
 const QuestionnaireWizard = ({ disease, questionDefinitions }) => {
   const [currentTier, setCurrentTier] = useState(1);
