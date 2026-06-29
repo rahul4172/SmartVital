@@ -20,55 +20,56 @@ interface Question {
 }
 
 const heartQuestions: Question[] = [
-  { id: 'age', label: 'What is your age?', type: 'number' },
-  { id: 'sex', label: 'What is your biological sex?', type: 'choice', options: [{ label: 'Male', value: 'M' }, { label: 'Female', value: 'F' }] },
-  { id: 'cp', label: 'Do you experience chest pain?', type: 'choice', options: [{ label: 'Yes, typical tight/squeezing pain', value: 'TA' }, { label: 'Yes, but atypical/different pain', value: 'ATA' }, { label: 'Yes, but sharp/not heart-related', value: 'NAP' }, { label: 'No chest pain', value: 'ASY' }], helpText: 'Typical angina is a tight, squeezing pain caused by reduced blood flow to the heart.' },
-  { id: 'resting_bp', label: 'What is your resting blood pressure (mmHg)?', type: 'number', defaultValue: 120, helpText: 'The pressure of your blood against your artery walls while resting. Normal is generally around 120/80 (enter the top number).' },
-  { id: 'cholesterol', label: 'What is your cholesterol level (mg/dl)?', type: 'number', defaultValue: 200, helpText: 'A waxy substance in your blood. High levels can increase heart disease risk. Normal is usually under 200 mg/dL.' },
-  { id: 'fbs', label: 'Is your blood sugar high before eating (Fasting > 120 mg/dl)?', type: 'choice', options: [{ label: 'Yes', value: 1 }, { label: 'No', value: 0 }], helpText: 'Measures your blood sugar after an overnight fast. >120 mg/dl can indicate prediabetes or diabetes.' },
-  { id: 'restecg', label: 'Resting ECG (Heart Rhythm Test) Results?', type: 'choice', options: [{ label: 'Normal', value: 'Normal' }, { label: 'Minor Abnormality (ST-T Wave)', value: 'ST' }, { label: 'Enlarged Heart Muscle (LVH)', value: 'LVH' }] },
-  { id: 'max_hr', label: 'What is the highest heart rate you can reach during exercise?', type: 'number', defaultValue: 150, helpText: 'The highest your heart rate reached during intense exercise or a stress test.' },
-  { id: 'exang', label: 'Do you feel chest pain or discomfort when you exercise?', type: 'choice', options: [{ label: 'Yes', value: 'Y' }, { label: 'No', value: 'N' }], helpText: 'Chest pain or discomfort that occurs specifically during physical activity.' },
-  { id: 'oldpeak', label: 'Heart Stress During Exercise (User-friendly replacement for Oldpeak)', type: 'choice', options: [{ label: '0 - No symptoms during exercise', value: 0.0 }, { label: '1 - Mild breathlessness or tiredness', value: 0.8 }, { label: '2 - Chest discomfort or dizziness', value: 1.8 }, { label: '3 - Chest pain or severe breathlessness', value: 3.0 }], defaultValue: 0.0, helpText: 'Rate your level of discomfort or symptoms experienced specifically during physical activity.' },
-  { id: 'slope', label: 'How severe are your symptoms during physical activity?', type: 'choice', options: [{ label: '✅ No or Mild Symptoms', value: 'Up' }, { label: '⚠️ Moderate Symptoms', value: 'Flat' }, { label: '🚨 Severe Symptoms', value: 'Down' }], helpText: 'This helps estimate your exercise recovery pattern (ST slope), an important indicator of heart stress.' }
+  { id: 'Age', label: 'What is your age?', type: 'number' },
+  { id: 'Heart_Rate', label: 'What is your resting heart rate (bpm)?', type: 'number', defaultValue: 72 },
+  { id: 'Diabetes', label: 'Do you have diabetes?', type: 'choice', options: [{ label: 'Yes', value: 1 }, { label: 'No', value: 0 }] },
+  { id: 'Family_History', label: 'Family history of heart disease?', type: 'choice', options: [{ label: 'Yes', value: 1 }, { label: 'No', value: 0 }] },
+  { id: 'Smoking', label: 'Do you smoke?', type: 'choice', options: [{ label: 'Yes', value: 1 }, { label: 'No', value: 0 }] },
+  { id: 'Alcohol_Consumption', label: 'Alcohol Consumption (drinks/week)', type: 'number', defaultValue: 0 },
+  { id: 'Exercise_Hours_Per_Week', label: 'Exercise Hours Per Week', type: 'number', defaultValue: 2 },
+  { id: 'Diet', label: 'Diet Quality', type: 'choice', options: [{ label: 'Healthy', value: 'Healthy' }, { label: 'Average', value: 'Average' }, { label: 'Unhealthy', value: 'Unhealthy' }] }
 ];
 
 const strokeQuestions: Question[] = [
   { id: 'age', label: 'What is your age?', type: 'number' },
   { id: 'gender', label: 'What is your gender?', type: 'choice', options: [{ label: 'Male', value: 'Male' }, { label: 'Female', value: 'Female' }] },
-  { id: 'hypertension', label: 'Do you have high blood pressure?', type: 'choice', options: [{ label: 'Yes', value: 1 }, { label: 'No', value: 0 }], helpText: 'A condition where the force of the blood against the artery walls is consistently too high (usually >130/80).' },
+  { id: 'hypertension', label: 'Do you have high blood pressure?', type: 'choice', options: [{ label: 'Yes', value: 1 }, { label: 'No', value: 0 }] },
   { id: 'heart_disease', label: 'Do you have a history of heart disease?', type: 'choice', options: [{ label: 'Yes', value: 1 }, { label: 'No', value: 0 }] },
-  { id: 'avg_glucose_level', label: 'What is your average blood sugar (glucose) level?', type: 'number', defaultValue: 100, helpText: 'The amount of sugar in your blood. Levels between 70-100 mg/dL are considered normal for fasting adults.' },
-  { id: 'bmi', label: 'What is your Body Mass Index (BMI)?', type: 'number', defaultValue: 25, helpText: 'A measure of body fat based on height and weight. Normal range is typically 18.5 to 24.9.' },
-  { id: 'smoking_status', label: 'What is your smoking status?', type: 'choice', options: [{ label: 'Never Smoked', value: 'never smoked' }, { label: 'Formerly Smoked', value: 'formerly smoked' }, { label: 'Smokes', value: 'smokes' }, { label: 'Unknown', value: 'Unknown' }] }
+  { id: 'ever_married', label: 'Have you ever been married?', type: 'choice', options: [{ label: 'Yes', value: 'Yes' }, { label: 'No', value: 'No' }] },
+  { id: 'work_type', label: 'Work Type', type: 'choice', options: [{ label: 'Private', value: 'Private' }, { label: 'Self-employed', value: 'Self-employed' }, { label: 'Govt_job', value: 'Govt_job' }, { label: 'children', value: 'children' }, { label: 'Never_worked', value: 'Never_worked' }] },
+  { id: 'Residence_type', label: 'Residence Type', type: 'choice', options: [{ label: 'Urban', value: 'Urban' }, { label: 'Rural', value: 'Rural' }] },
+  { id: 'avg_glucose_level', label: 'Average blood sugar level?', type: 'number', defaultValue: 100 },
+  { id: 'bmi', label: 'What is your BMI?', type: 'number', defaultValue: 25 },
+  { id: 'smoking_status', label: 'Smoking Status', type: 'choice', options: [{ label: 'Never Smoked', value: 'never smoked' }, { label: 'Formerly Smoked', value: 'formerly smoked' }, { label: 'Smokes', value: 'smokes' }, { label: 'Unknown', value: 'Unknown' }] }
 ];
 
 const diabetesQuestions: Question[] = [
-  { id: 'gender', label: 'What is your gender?', type: 'choice', options: [{ label: 'Male', value: 'Male' }, { label: 'Female', value: 'Female' }] },
-  { id: 'age', label: 'What is your age?', type: 'number' },
-  { id: 'hypertension', label: 'Do you have hypertension (high blood pressure)?', type: 'choice', options: [{ label: 'Yes', value: 1 }, { label: 'No', value: 0 }] },
-  { id: 'heart_disease', label: 'Do you have a history of heart disease?', type: 'choice', options: [{ label: 'Yes', value: 1 }, { label: 'No', value: 0 }] },
-  { id: 'smoking_history', label: 'What is your smoking history?', type: 'choice', options: [{ label: 'Never', value: 'never' }, { label: 'Current', value: 'current' }, { label: 'Former', value: 'former' }, { label: 'No Info', value: 'No Info' }] },
-  { id: 'bmi', label: 'What is your BMI?', type: 'number', defaultValue: 25 },
-  { id: 'HbA1c_level', label: 'What is your average blood sugar over 3 months (HbA1c)?', type: 'number', defaultValue: 5.5, helpText: 'Average blood sugar levels over the past 3 months. Normal is below 5.7%.' },
-  { id: 'blood_glucose_level', label: 'What is your blood glucose level?', type: 'number', defaultValue: 100, helpText: 'Current blood sugar level.' }
+  { id: 'Age', label: 'What is your age?', type: 'number' },
+  { id: 'Pregnancies', label: 'Number of pregnancies', type: 'number', defaultValue: 0 },
+  { id: 'Glucose', label: 'Glucose level', type: 'number', defaultValue: 100 },
+  { id: 'BloodPressure', label: 'Blood Pressure', type: 'number', defaultValue: 80 },
+  { id: 'SkinThickness', label: 'Skin Thickness', type: 'number', defaultValue: 20 },
+  { id: 'Insulin', label: 'Insulin level', type: 'number', defaultValue: 80 },
+  { id: 'BMI', label: 'What is your BMI?', type: 'number', defaultValue: 25 },
+  { id: 'DiabetesPedigreeFunction', label: 'Diabetes Pedigree Function', type: 'number', defaultValue: 0.5 }
 ];
 
 const lungQuestions: Question[] = [
-  { id: 'age', label: 'What is your age?', type: 'number' },
-  { id: 'smoker', label: 'Are you a smoker?', type: 'choice', options: [{ label: 'Yes', value: 1 }, { label: 'No', value: 0 }] },
-  { id: 'yellow_fingers', label: 'Are your fingers or nails yellowed?', type: 'choice', options: [{ label: 'Yes', value: 2 }, { label: 'No', value: 1 }], helpText: 'Can be a physical sign of long-term heavy smoking or certain chronic illnesses.' },
-  { id: 'anxiety', label: 'Do you often feel anxious or overly stressed?', type: 'choice', options: [{ label: 'Yes', value: 2 }, { label: 'No', value: 1 }] },
-  { id: 'peer_pressure', label: 'Are you often pressured by others to smoke or drink?', type: 'choice', options: [{ label: 'Yes', value: 2 }, { label: 'No', value: 1 }] },
-  { id: 'chronic_disease', label: 'Do you have any long-term medical conditions?', type: 'choice', options: [{ label: 'Yes', value: 2 }, { label: 'No', value: 1 }] },
-  { id: 'fatigue', label: 'Do you often feel unusually tired or exhausted?', type: 'choice', options: [{ label: 'Yes', value: 2 }, { label: 'No', value: 1 }] },
-  { id: 'allergy', label: 'Do you have any severe allergies?', type: 'choice', options: [{ label: 'Yes', value: 2 }, { label: 'No', value: 1 }] },
-  { id: 'wheezing', label: 'Do you make a whistling sound (wheeze) when you breathe?', type: 'choice', options: [{ label: 'Yes', value: 2 }, { label: 'No', value: 1 }], helpText: 'A high-pitched whistling sound made while breathing, often associated with narrowed airways.' },
-  { id: 'alcohol', label: 'Do you drink alcohol frequently?', type: 'choice', options: [{ label: 'Yes', value: 2 }, { label: 'No', value: 1 }] },
-  { id: 'coughing', label: 'Do you have a cough that won\'t go away?', type: 'choice', options: [{ label: 'Yes', value: 2 }, { label: 'No', value: 1 }] },
-  { id: 'shortness_of_breath', label: 'Do you easily run out of breath?', type: 'choice', options: [{ label: 'Yes', value: 2 }, { label: 'No', value: 1 }] },
-  { id: 'swallowing_difficulty', label: 'Is it painful or difficult to swallow?', type: 'choice', options: [{ label: 'Yes', value: 2 }, { label: 'No', value: 1 }] },
-  { id: 'chest_pain', label: 'Do you ever feel pain in your chest?', type: 'choice', options: [{ label: 'Yes', value: 2 }, { label: 'No', value: 1 }] }
+  { id: 'AGE', label: 'What is your age?', type: 'number' },
+  { id: 'GENDER', label: 'Gender', type: 'choice', options: [{ label: 'Male', value: 'M' }, { label: 'Female', value: 'F' }] },
+  { id: 'SMOKING', label: 'Do you smoke?', type: 'choice', options: [{ label: 'Yes', value: 2 }, { label: 'No', value: 1 }] },
+  { id: 'YELLOW_FINGERS', label: 'Yellow Fingers?', type: 'choice', options: [{ label: 'Yes', value: 2 }, { label: 'No', value: 1 }] },
+  { id: 'ANXIETY', label: 'Anxiety?', type: 'choice', options: [{ label: 'Yes', value: 2 }, { label: 'No', value: 1 }] },
+  { id: 'PEER_PRESSURE', label: 'Peer Pressure?', type: 'choice', options: [{ label: 'Yes', value: 2 }, { label: 'No', value: 1 }] },
+  { id: 'CHRONIC_DISEASE', label: 'Chronic Disease?', type: 'choice', options: [{ label: 'Yes', value: 2 }, { label: 'No', value: 1 }] },
+  { id: 'FATIGUE', label: 'Fatigue?', type: 'choice', options: [{ label: 'Yes', value: 2 }, { label: 'No', value: 1 }] },
+  { id: 'ALLERGY', label: 'Allergy?', type: 'choice', options: [{ label: 'Yes', value: 2 }, { label: 'No', value: 1 }] },
+  { id: 'WHEEZING', label: 'Wheezing?', type: 'choice', options: [{ label: 'Yes', value: 2 }, { label: 'No', value: 1 }] },
+  { id: 'ALCOHOL_CONSUMING', label: 'Consume Alcohol?', type: 'choice', options: [{ label: 'Yes', value: 2 }, { label: 'No', value: 1 }] },
+  { id: 'COUGHING', label: 'Coughing?', type: 'choice', options: [{ label: 'Yes', value: 2 }, { label: 'No', value: 1 }] },
+  { id: 'SHORTNESS_OF_BREATH', label: 'Shortness of Breath?', type: 'choice', options: [{ label: 'Yes', value: 2 }, { label: 'No', value: 1 }] },
+  { id: 'SWALLOWING_DIFFICULTY', label: 'Swallowing Difficulty?', type: 'choice', options: [{ label: 'Yes', value: 2 }, { label: 'No', value: 1 }] },
+  { id: 'CHEST_PAIN', label: 'Chest Pain?', type: 'choice', options: [{ label: 'Yes', value: 2 }, { label: 'No', value: 1 }] }
 ];
 
 const questionMaps: Record<DiseaseModel, Question[]> = {
@@ -202,17 +203,14 @@ export function Predictions() {
 
     if (activeModel === 'heart') {
       payload = {
-        Age: finalAnswers.age,
-        Sex: String(finalAnswers.sex),
-        ChestPainType: String(finalAnswers.cp),
-        RestingBP: Number(finalAnswers.resting_bp),
-        Cholesterol: Number(finalAnswers.cholesterol),
-        FastingBS: Number(finalAnswers.fbs),
-        RestingECG: String(finalAnswers.restecg),
-        MaxHR: Number(finalAnswers.max_hr),
-        ExerciseAngina: String(finalAnswers.exang),
-        Oldpeak: Number(finalAnswers.oldpeak),
-        ST_Slope: String(finalAnswers.slope)
+        Age: finalAnswers.Age,
+        Heart_Rate: finalAnswers.Heart_Rate,
+        Diabetes: finalAnswers.Diabetes,
+        Family_History: finalAnswers.Family_History,
+        Smoking: finalAnswers.Smoking,
+        Alcohol_Consumption: finalAnswers.Alcohol_Consumption,
+        Exercise_Hours_Per_Week: finalAnswers.Exercise_Hours_Per_Week,
+        Diet: String(finalAnswers.Diet)
       };
     } else if (activeModel === 'stroke') {
       payload = {
@@ -220,41 +218,41 @@ export function Predictions() {
         age: finalAnswers.age,
         hypertension: finalAnswers.hypertension,
         heart_disease: finalAnswers.heart_disease,
-        ever_married: "Yes",
-        work_type: "Private",
-        residence_type: "Urban",
+        ever_married: String(finalAnswers.ever_married),
+        work_type: String(finalAnswers.work_type),
+        Residence_type: String(finalAnswers.Residence_type),
         avg_glucose_level: Number(finalAnswers.avg_glucose_level),
         bmi: Number(finalAnswers.bmi),
         smoking_status: String(finalAnswers.smoking_status)
       };
     } else if (activeModel === 'diabetes') {
       payload = {
-        gender: String(finalAnswers.gender),
-        age: finalAnswers.age,
-        hypertension: Number(finalAnswers.hypertension),
-        heart_disease: Number(finalAnswers.heart_disease),
-        smoking_history: String(finalAnswers.smoking_history),
-        bmi: Number(finalAnswers.bmi),
-        HbA1c_level: Number(finalAnswers.HbA1c_level),
-        blood_glucose_level: Number(finalAnswers.blood_glucose_level)
+        Pregnancies: finalAnswers.Pregnancies,
+        Glucose: finalAnswers.Glucose,
+        BloodPressure: finalAnswers.BloodPressure,
+        SkinThickness: finalAnswers.SkinThickness,
+        Insulin: finalAnswers.Insulin,
+        BMI: finalAnswers.BMI,
+        DiabetesPedigreeFunction: finalAnswers.DiabetesPedigreeFunction,
+        Age: finalAnswers.Age
       };
     } else if (activeModel === 'lung') {
       payload = {
-        GENDER: profile?.gender === 'Female' ? "F" : "M",
-        AGE: finalAnswers.age,
-        SMOKING: finalAnswers.smoker,
-        YELLOW_FINGERS: finalAnswers.yellow_fingers,
-        ANXIETY: finalAnswers.anxiety,
-        PEER_PRESSURE: finalAnswers.peer_pressure,
-        CHRONIC_DISEASE: finalAnswers.chronic_disease,
-        FATIGUE: finalAnswers.fatigue,
-        ALLERGY: finalAnswers.allergy,
-        WHEEZING: finalAnswers.wheezing,
-        ALCOHOL_CONSUMING: finalAnswers.alcohol,
-        COUGHING: finalAnswers.coughing,
-        SHORTNESS_OF_BREATH: finalAnswers.shortness_of_breath,
-        SWALLOWING_DIFFICULTY: finalAnswers.swallowing_difficulty,
-        CHEST_PAIN: finalAnswers.chest_pain
+        GENDER: String(finalAnswers.GENDER),
+        AGE: finalAnswers.AGE,
+        SMOKING: finalAnswers.SMOKING,
+        YELLOW_FINGERS: finalAnswers.YELLOW_FINGERS,
+        ANXIETY: finalAnswers.ANXIETY,
+        PEER_PRESSURE: finalAnswers.PEER_PRESSURE,
+        CHRONIC_DISEASE: finalAnswers.CHRONIC_DISEASE,
+        FATIGUE: finalAnswers.FATIGUE,
+        ALLERGY: finalAnswers.ALLERGY,
+        WHEEZING: finalAnswers.WHEEZING,
+        ALCOHOL_CONSUMING: finalAnswers.ALCOHOL_CONSUMING,
+        COUGHING: finalAnswers.COUGHING,
+        SHORTNESS_OF_BREATH: finalAnswers.SHORTNESS_OF_BREATH,
+        SWALLOWING_DIFFICULTY: finalAnswers.SWALLOWING_DIFFICULTY,
+        CHEST_PAIN: finalAnswers.CHEST_PAIN
       };
     }
 
@@ -263,7 +261,13 @@ export function Predictions() {
       setPredictionResult(res.data);
       toast.success('Analysis complete');
     } catch (error: any) {
-      toast.error(error.response?.data?.detail || 'Failed to generate prediction');
+      let errMsg = 'Failed to generate prediction';
+      if (error.response?.data?.detail) {
+        errMsg = Array.isArray(error.response.data.detail) 
+          ? error.response.data.detail.map((d: any) => `${d.loc?.[d.loc.length-1] || 'Field'}: ${d.msg}`).join(', ')
+          : error.response.data.detail;
+      }
+      toast.error(errMsg);
       setHasStarted(false);
     } finally {
       setIsLoading(false);
@@ -435,11 +439,11 @@ export function Predictions() {
               </h3>
               
               <div className="mb-6 flex justify-center">
-                <RiskBadge risk={predictionResult.risk_level.toLowerCase() as 'high' | 'medium' | 'low'} size="lg" />
+                <RiskBadge risk={(predictionResult?.risk_level || 'low').toLowerCase() as 'high' | 'medium' | 'low'} size="lg" />
               </div>
               
               <div className="text-5xl font-bold text-[var(--text-primary)] mb-2">
-                {(predictionResult.risk_score * 100).toFixed(1)}<span className="text-3xl text-[var(--text-muted)]">%</span>
+                {((predictionResult?.risk_score || 0) * 100).toFixed(1)}<span className="text-3xl text-[var(--text-muted)]">%</span>
               </div>
               <p className="text-[var(--text-secondary)] mb-8">Probability of condition present</p>
               
