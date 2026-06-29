@@ -21,13 +21,13 @@ interface Question {
 
 const heartQuestions: Question[] = [
   { id: 'Age', label: 'What is your age?', type: 'number' },
-  { id: 'Heart_Rate', label: 'What is your resting heart rate (bpm)?', type: 'number', defaultValue: 72 },
+  { id: 'Heart_Rate', label: 'Resting heart rate (bpm)? (Average is 72)', type: 'number', defaultValue: 72 },
   { id: 'Diabetes', label: 'Do you have diabetes?', type: 'choice', options: [{ label: 'Yes', value: 1 }, { label: 'No', value: 0 }] },
   { id: 'Family_History', label: 'Family history of heart disease?', type: 'choice', options: [{ label: 'Yes', value: 1 }, { label: 'No', value: 0 }] },
   { id: 'Smoking', label: 'Do you smoke?', type: 'choice', options: [{ label: 'Yes', value: 1 }, { label: 'No', value: 0 }] },
   { id: 'Alcohol_Consumption', label: 'Alcohol Consumption (drinks/week)', type: 'number', defaultValue: 0 },
   { id: 'Exercise_Hours_Per_Week', label: 'Exercise Hours Per Week', type: 'number', defaultValue: 2 },
-  { id: 'Diet', label: 'Diet Quality', type: 'choice', options: [{ label: 'Healthy', value: 'Healthy' }, { label: 'Average', value: 'Average' }, { label: 'Unhealthy', value: 'Unhealthy' }] }
+  { id: 'Diet', label: 'Diet Quality', type: 'choice', options: [{ label: 'Healthy (Veggies, balanced)', value: 'Healthy' }, { label: 'Average', value: 'Average' }, { label: 'Unhealthy (Fast food)', value: 'Unhealthy' }] }
 ];
 
 const strokeQuestions: Question[] = [
@@ -36,22 +36,20 @@ const strokeQuestions: Question[] = [
   { id: 'hypertension', label: 'Do you have high blood pressure?', type: 'choice', options: [{ label: 'Yes', value: 1 }, { label: 'No', value: 0 }] },
   { id: 'heart_disease', label: 'Do you have a history of heart disease?', type: 'choice', options: [{ label: 'Yes', value: 1 }, { label: 'No', value: 0 }] },
   { id: 'ever_married', label: 'Have you ever been married?', type: 'choice', options: [{ label: 'Yes', value: 'Yes' }, { label: 'No', value: 'No' }] },
-  { id: 'work_type', label: 'Work Type', type: 'choice', options: [{ label: 'Private', value: 'Private' }, { label: 'Self-employed', value: 'Self-employed' }, { label: 'Govt_job', value: 'Govt_job' }, { label: 'children', value: 'children' }, { label: 'Never_worked', value: 'Never_worked' }] },
-  { id: 'Residence_type', label: 'Residence Type', type: 'choice', options: [{ label: 'Urban', value: 'Urban' }, { label: 'Rural', value: 'Rural' }] },
-  { id: 'avg_glucose_level', label: 'Average blood sugar level?', type: 'number', defaultValue: 100 },
-  { id: 'bmi', label: 'What is your BMI?', type: 'number', defaultValue: 25 },
-  { id: 'smoking_status', label: 'Smoking Status', type: 'choice', options: [{ label: 'Never Smoked', value: 'never smoked' }, { label: 'Formerly Smoked', value: 'formerly smoked' }, { label: 'Smokes', value: 'smokes' }, { label: 'Unknown', value: 'Unknown' }] }
+  { id: 'work_type', label: 'Work Type', type: 'choice', options: [{ label: 'Private Sector', value: 'Private' }, { label: 'Self-employed', value: 'Self-employed' }, { label: 'Government Job', value: 'Govt_job' }, { label: 'Never Worked/Student', value: 'Never_worked' }] },
+  { id: 'Residence_type', label: 'Residence Type', type: 'choice', options: [{ label: 'Urban (City)', value: 'Urban' }, { label: 'Rural (Country)', value: 'Rural' }] },
+  { id: 'avg_glucose_level', label: 'Average blood sugar level? (Leave at 100 if unknown)', type: 'number', defaultValue: 100 },
+  { id: 'bmi', label: 'What is your BMI? (Leave at 25 if unknown)', type: 'number', defaultValue: 25 },
+  { id: 'smoking_status', label: 'Smoking Status', type: 'choice', options: [{ label: 'Never Smoked', value: 'never smoked' }, { label: 'Formerly Smoked', value: 'formerly smoked' }, { label: 'Smokes Currently', value: 'smokes' }] }
 ];
 
 const diabetesQuestions: Question[] = [
   { id: 'Age', label: 'What is your age?', type: 'number' },
-  { id: 'Pregnancies', label: 'Number of pregnancies', type: 'number', defaultValue: 0 },
-  { id: 'Glucose', label: 'Glucose level', type: 'number', defaultValue: 100 },
-  { id: 'BloodPressure', label: 'Blood Pressure', type: 'number', defaultValue: 80 },
-  { id: 'SkinThickness', label: 'Skin Thickness', type: 'number', defaultValue: 20 },
-  { id: 'Insulin', label: 'Insulin level', type: 'number', defaultValue: 80 },
-  { id: 'BMI', label: 'What is your BMI?', type: 'number', defaultValue: 25 },
-  { id: 'DiabetesPedigreeFunction', label: 'Diabetes Pedigree Function', type: 'number', defaultValue: 0.5 }
+  { id: 'Pregnancies', label: 'Number of pregnancies (Enter 0 if male/none)', type: 'number', defaultValue: 0 },
+  { id: 'Glucose', label: 'Average blood sugar level? (Leave at 100 if unknown)', type: 'number', defaultValue: 100 },
+  { id: 'BloodPressure', label: 'Resting blood pressure? (Leave at 80 if unknown)', type: 'number', defaultValue: 80 },
+  { id: 'body_type', label: 'How would you describe your body type?', type: 'choice', options: [{label: 'Lean / Athletic', value: 'lean'}, {label: 'Average', value: 'average'}, {label: 'Overweight', value: 'overweight'}] },
+  { id: 'family_history', label: 'Do you have a family history of diabetes?', type: 'choice', options: [{label: 'Strong family history', value: 'strong'}, {label: 'Some family history', value: 'some'}, {label: 'None', value: 'none'}] }
 ];
 
 const lungQuestions: Question[] = [
@@ -226,14 +224,28 @@ export function Predictions() {
         smoking_status: String(finalAnswers.smoking_status)
       };
     } else if (activeModel === 'diabetes') {
+      let bmi = 25;
+      let skinThickness = 20;
+      let insulin = 80;
+      
+      if (finalAnswers.body_type === 'lean') {
+        bmi = 20; skinThickness = 15; insulin = 60;
+      } else if (finalAnswers.body_type === 'overweight') {
+        bmi = 30; skinThickness = 30; insulin = 120;
+      }
+
+      let dpf = 0.3;
+      if (finalAnswers.family_history === 'strong') dpf = 0.8;
+      else if (finalAnswers.family_history === 'some') dpf = 0.5;
+
       payload = {
         Pregnancies: finalAnswers.Pregnancies,
         Glucose: finalAnswers.Glucose,
         BloodPressure: finalAnswers.BloodPressure,
-        SkinThickness: finalAnswers.SkinThickness,
-        Insulin: finalAnswers.Insulin,
-        BMI: finalAnswers.BMI,
-        DiabetesPedigreeFunction: finalAnswers.DiabetesPedigreeFunction,
+        SkinThickness: skinThickness,
+        Insulin: insulin,
+        BMI: bmi,
+        DiabetesPedigreeFunction: dpf,
         Age: finalAnswers.Age
       };
     } else if (activeModel === 'lung') {
